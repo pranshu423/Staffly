@@ -5,6 +5,21 @@ import axios from 'axios';
 
 // Ensure credentials are sent with every request
 axios.defaults.withCredentials = true;
+
+// Add request interceptor to attach Bearer token
+axios.interceptors.request.use(
+  (config) => {
+    const storedUser = localStorage.getItem('staffly_user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.token) {
+        config.headers.Authorization = `Bearer ${user.token}`;
+      }
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 import DashboardLayout from './layouts/DashboardLayout';
 import Login from './pages/Login';
 import Register from './pages/Register';
