@@ -30,9 +30,10 @@ const Leaves = () => {
     const fetchLeaves = async () => {
         try {
             setLoading(true);
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             const endpoint = isAdmin
-                ? 'http://localhost:5000/api/leaves/all'
-                : 'http://localhost:5000/api/leaves/me';
+                ? `${apiUrl}/api/leaves/all`
+                : `${apiUrl}/api/leaves/me`;
 
             const { data } = await axios.get(endpoint, { withCredentials: true });
             setLeaves(data);
@@ -49,7 +50,8 @@ const Leaves = () => {
 
     const handleUpdateStatus = async (id: string, status: string) => {
         try {
-            await axios.put(`http://localhost:5000/api/leaves/${id}/status`, { status }, { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.put(`${apiUrl}/api/leaves/${id}/status`, { status }, { withCredentials: true });
             fetchLeaves();
         } catch (error) {
             console.error('Failed to update status', error);
@@ -114,7 +116,7 @@ const Leaves = () => {
                                             <td className="px-6 py-4 truncate max-w-xs">{leave.reason}</td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-semibold ${leave.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                        leave.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                    leave.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                                                     }`}>
                                                     {leave.status}
                                                 </span>

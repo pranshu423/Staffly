@@ -27,7 +27,8 @@ const Employees = () => {
     const fetchEmployees = async () => {
         try {
             setLoading(true);
-            const { data } = await axios.get('http://localhost:5000/api/employees', { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const { data } = await axios.get(`${apiUrl}/api/employees`, { withCredentials: true });
             setEmployees(data);
         } catch (error) {
             console.error('Failed to fetch employees', error);
