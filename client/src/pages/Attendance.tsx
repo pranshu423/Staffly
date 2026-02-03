@@ -25,9 +25,10 @@ const Attendance = () => {
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
                 const endpoint = isAdmin
-                    ? 'http://localhost:5000/api/attendance/all'
-                    : 'http://localhost:5000/api/attendance/me';
+                    ? `${apiUrl}/api/attendance/all`
+                    : `${apiUrl}/api/attendance/me`;
 
                 const { data } = await axios.get(endpoint, { withCredentials: true });
                 setAttendance(data);
@@ -84,7 +85,7 @@ const Attendance = () => {
                                             <td className="px-6 py-4">{record.workDuration || '-'}</td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === 'Present' ? 'bg-green-100 text-green-800' :
-                                                        record.status === 'Absent' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                    record.status === 'Absent' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                                                     }`}>
                                                     {record.status}
                                                 </span>
