@@ -149,7 +149,7 @@ const Dashboard = () => {
                                     <div className="text-center py-4">
                                         <p className="text-sm text-slate-500 mb-4">You haven't checked in yet today.</p>
                                         <Button
-                                            className="w-full bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]"
+                                            className="w-full h-12 text-base font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-xl shadow-slate-900/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] rounded-xl"
                                             onClick={handleCheckIn}
                                             isLoading={loading}
                                         >

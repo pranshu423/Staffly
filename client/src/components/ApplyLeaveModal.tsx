@@ -32,7 +32,8 @@ const ApplyLeaveModal: React.FC<ApplyLeaveModalProps> = ({ isOpen, onClose, onSu
         setError('');
 
         try {
-            await axios.post('http://localhost:5000/api/leaves/apply', formData, { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.post(`${apiUrl}/api/leaves/apply`, formData, { withCredentials: true });
             onSuccess();
             onClose();
             // Reset form
