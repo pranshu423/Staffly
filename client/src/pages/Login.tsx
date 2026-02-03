@@ -20,7 +20,8 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const { data } = await axios.post(`${apiUrl}/api/auth/login`, {
                 email,
                 password,
             });
@@ -47,7 +48,7 @@ const Login = () => {
                 className="sm:mx-auto sm:w-full sm:max-w-md relative z-10"
             >
                 <div className="text-center mb-8">
-                    <h2 className="text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+                    <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                         Staffly
                     </h2>
                     <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 font-medium">
