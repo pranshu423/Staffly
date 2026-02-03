@@ -94,7 +94,7 @@ const Payroll = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {payrolls.map((record) => (
+                                    {Array.isArray(payrolls) && payrolls.map((record) => (
                                         <tr key={record._id} className="bg-white border-b dark:bg-slate-900 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
@@ -113,7 +113,7 @@ const Payroll = () => {
                                             </td>
                                         </tr>
                                     ))}
-                                    {payrolls.length === 0 && (
+                                    {(!Array.isArray(payrolls) || payrolls.length === 0) && (
                                         <tr>
                                             <td colSpan={isAdmin ? 6 : 5} className="px-6 py-4 text-center text-slate-500">
                                                 No records found

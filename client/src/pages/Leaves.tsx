@@ -103,7 +103,7 @@ const Leaves = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {leaves.map((leave) => (
+                                    {Array.isArray(leaves) && leaves.map((leave) => (
                                         <tr key={leave._id} className="bg-white border-b dark:bg-slate-900 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
@@ -137,7 +137,7 @@ const Leaves = () => {
                                             )}
                                         </tr>
                                     ))}
-                                    {leaves.length === 0 && (
+                                    {(!Array.isArray(leaves) || leaves.length === 0) && (
                                         <tr>
                                             <td colSpan={isAdmin ? 7 : 5} className="px-6 py-4 text-center text-slate-500">
                                                 No specific records found
