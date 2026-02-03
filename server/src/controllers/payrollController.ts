@@ -19,7 +19,7 @@ export const generatePayroll = async (req: Request, res: Response) => {
             baseSalary,
             deductions: deductions || 0,
             netPay,
-            status: 'pending' // Default to pending until processed/paid
+            status: 'paid' // Default to paid as Admin generated it
         });
 
         res.status(201).json(payroll);
