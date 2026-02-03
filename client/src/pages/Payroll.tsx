@@ -44,6 +44,16 @@ const Payroll = () => {
         }
     };
 
+    const handleMarkAsPaid = async (id: string) => {
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.put(`${apiUrl}/api/payroll/${id}/pay`, {}, { withCredentials: true });
+            fetchPayroll();
+        } catch (error) {
+            console.error('Failed to mark as paid', error);
+        }
+    };
+
     useEffect(() => {
         fetchPayroll();
     }, [isAdmin]);
@@ -106,10 +116,21 @@ const Payroll = () => {
                                             <td className="px-6 py-4 text-red-500">-${record.deductions}</td>
                                             <td className="px-6 py-4 font-bold text-green-600">${record.netPay}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === 'paid' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                                    }`}>
+                                                <button
+                                                    onClick={() => {
+                                                        if (isAdmin && record.status === 'pending') {
+                                                            handleMarkAsPaid(record._id);
+                                                        }
+                                                    }}
+                                                    disabled={!isAdmin || record.status === 'paid'}
+                                                    className={`px-2 py-1 rounded-full text-xs font-semibold transition-transform hover:scale-105 ${record.status === 'paid'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-yellow-100 text-yellow-800 cursor-pointer hover:bg-yellow-200'
+                                                        }`}
+                                                    title={isAdmin && record.status === 'pending' ? "Click to Mark as Paid" : ""}
+                                                >
                                                     {record.status}
-                                                </span>
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
