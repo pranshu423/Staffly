@@ -98,7 +98,7 @@ const Payroll = () => {
                                         <tr key={record._id} className="bg-white border-b dark:bg-slate-900 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
-                                                    {typeof record.employeeId === 'object' ? record.employeeId.name : 'Unknown'}
+                                                    {record.employeeId && typeof record.employeeId === 'object' ? record.employeeId.name : 'Unknown'}
                                                 </td>
                                             )}
                                             <td className="px-6 py-4">{record.month}</td>

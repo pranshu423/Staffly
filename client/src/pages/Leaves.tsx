@@ -107,7 +107,7 @@ const Leaves = () => {
                                         <tr key={leave._id} className="bg-white border-b dark:bg-slate-900 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
-                                                    {typeof leave.employeeId === 'object' ? leave.employeeId.name : 'Unknown'}
+                                                    {leave.employeeId && typeof leave.employeeId === 'object' ? leave.employeeId.name : 'Unknown'}
                                                 </td>
                                             )}
                                             <td className="px-6 py-4 capitalize">{leave.type}</td>
