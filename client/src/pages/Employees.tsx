@@ -55,7 +55,8 @@ const Employees = () => {
     const handleDelete = async (id: string) => {
         if (window.confirm('Are you sure you want to delete this employee?')) {
             try {
-                await axios.delete(`http://localhost:5000/api/employees/${id}`, { withCredentials: true });
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                await axios.delete(`${apiUrl}/api/employees/${id}`, { withCredentials: true });
                 fetchEmployees();
             } catch (error) {
                 console.error('Failed to delete employee', error);

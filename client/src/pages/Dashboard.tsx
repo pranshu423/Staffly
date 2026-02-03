@@ -16,7 +16,8 @@ const Dashboard = () => {
 
     const fetchTodayAttendance = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/attendance/today', { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const { data } = await axios.get(`${apiUrl}/api/attendance/today`, { withCredentials: true });
             setAttendance(data);
         } catch (error) {
             console.error('Failed to fetch attendance', error);
@@ -26,11 +27,12 @@ const Dashboard = () => {
     const fetchLeaveData = async () => {
         if (!user) return;
         try {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             if (user.role === 'employee') {
-                const { data } = await axios.get('http://localhost:5000/api/leaves/balance', { withCredentials: true });
+                const { data } = await axios.get(`${apiUrl}/api/leaves/balance`, { withCredentials: true });
                 setLeaveBalance(data);
             } else if (user.role === 'admin') {
-                const { data } = await axios.get('http://localhost:5000/api/leaves/all', { withCredentials: true });
+                const { data } = await axios.get(`${apiUrl}/api/leaves/all`, { withCredentials: true });
                 setPendingLeaves(data.filter((l: any) => l.status === 'pending').length);
             }
         } catch (error) {
@@ -46,7 +48,8 @@ const Dashboard = () => {
     const handleCheckIn = async () => {
         try {
             setLoading(true);
-            await axios.post('http://localhost:5000/api/attendance/check-in', {}, { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.post(`${apiUrl}/api/attendance/check-in`, {}, { withCredentials: true });
             await fetchTodayAttendance();
         } catch (error: any) {
             console.error('Check-in failed', error);
@@ -59,7 +62,8 @@ const Dashboard = () => {
     const handleCheckOut = async () => {
         try {
             setLoading(true);
-            await axios.post('http://localhost:5000/api/attendance/check-out', {}, { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.post(`${apiUrl}/api/attendance/check-out`, {}, { withCredentials: true });
             await fetchTodayAttendance();
         } catch (error: any) {
             console.error('Check-out failed', error);
