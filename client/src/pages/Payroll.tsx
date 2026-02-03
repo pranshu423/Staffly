@@ -30,9 +30,10 @@ const Payroll = () => {
     const fetchPayroll = async () => {
         try {
             setLoading(true);
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             const endpoint = isAdmin
-                ? 'http://localhost:5000/api/payroll/all'
-                : 'http://localhost:5000/api/payroll/me';
+                ? `${apiUrl}/api/payroll/all`
+                : `${apiUrl}/api/payroll/me`;
 
             const { data } = await axios.get(endpoint, { withCredentials: true });
             setPayrolls(data);

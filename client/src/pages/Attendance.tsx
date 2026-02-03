@@ -70,7 +70,7 @@ const Attendance = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {attendance.map((record) => (
+                                    {Array.isArray(attendance) && attendance.map((record) => (
                                         <tr key={record._id} className="bg-white border-b dark:bg-slate-900 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
@@ -92,7 +92,7 @@ const Attendance = () => {
                                             </td>
                                         </tr>
                                     ))}
-                                    {attendance.length === 0 && (
+                                    {(!Array.isArray(attendance) || attendance.length === 0) && (
                                         <tr>
                                             <td colSpan={isAdmin ? 6 : 5} className="px-6 py-4 text-center text-slate-500">
                                                 No attendance records found

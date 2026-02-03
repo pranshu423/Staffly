@@ -29,7 +29,8 @@ const GeneratePayrollModal: React.FC<GeneratePayrollModalProps> = ({ isOpen, onC
 
     const fetchEmployees = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/employees', { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const { data } = await axios.get(`${apiUrl}/api/employees`, { withCredentials: true });
             setEmployees(data);
             if (data.length > 0 && !formData.employeeId) {
                 setFormData(prev => ({ ...prev, employeeId: data[0]._id }));
@@ -49,7 +50,8 @@ const GeneratePayrollModal: React.FC<GeneratePayrollModalProps> = ({ isOpen, onC
         setError('');
 
         try {
-            await axios.post('http://localhost:5000/api/payroll/generate', formData, { withCredentials: true });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            await axios.post(`${apiUrl}/api/payroll/generate`, formData, { withCredentials: true });
             onSuccess();
             onClose();
         } catch (err: any) {
