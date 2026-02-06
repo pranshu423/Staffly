@@ -65,7 +65,7 @@ const Register = () => {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
+                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
                         <Input
@@ -74,7 +74,7 @@ const Register = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
+                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
                         <Input
@@ -83,7 +83,7 @@ const Register = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
+                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
                         <Input
@@ -92,7 +92,7 @@ const Register = () => {
                             required
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
-                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
+                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
                         {error && (
