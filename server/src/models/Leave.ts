@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface ILeave extends Document {
     employeeId: mongoose.Schema.Types.ObjectId;
+    companyId: mongoose.Schema.Types.ObjectId;
     type: 'casual' | 'sick' | 'paid';
     fromDate: Date;
     toDate: Date;
@@ -11,6 +12,7 @@ export interface ILeave extends Document {
 
 const LeaveSchema: Schema = new Schema({
     employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
     type: { type: String, enum: ['casual', 'sick', 'paid'], required: true },
     fromDate: { type: Date, required: true },
     toDate: { type: Date, required: true },

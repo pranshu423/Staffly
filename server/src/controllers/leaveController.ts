@@ -17,6 +17,7 @@ export const applyLeave = async (req: Request, res: Response) => {
 
         const leave = await Leave.create({
             employeeId,
+            companyId: (req as any).user.companyId,
             type,
             fromDate,
             toDate,
@@ -46,7 +47,7 @@ export const getMyLeaves = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const getAllLeaves = async (req: Request, res: Response) => {
     try {
-        const leaves = await Leave.find().populate('employeeId', 'name email employeeId department').sort({ createdAt: -1 });
+        const leaves = await Leave.find({ companyId: (req as any).user.companyId }).populate('employeeId', 'name email employeeId department').sort({ createdAt: -1 });
         res.json(leaves);
     } catch (error: any) {
         res.status(500).json({ message: error.message });

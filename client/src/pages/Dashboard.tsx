@@ -1,48 +1,48 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Clock, CalendarDays, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Button } from '../components/ui/Button';
-import { motion } from 'framer-motion';
+import { FileText, CheckCircle2, AlertCircle } from 'lucide-react';
+import AttendanceWidget from '../components/dashboard/AttendanceWidget';
+import StatsWidget from '../components/dashboard/StatsWidget';
+import RecentActivity from '../components/dashboard/RecentActivity';
+import { motion, type Variants } from 'framer-motion';
 
 const Dashboard = () => {
     const { user } = useAuth();
-    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     const [attendance, setAttendance] = useState<any>(null);
-    const [leaveBalance, setLeaveBalance] = useState<any>(null);
     const [pendingLeaves, setPendingLeaves] = useState(0);
+    const [teamStatus, setTeamStatus] = useState({ inOffice: 0, totalEmployees: 0, onLeave: 0 });
+    const [recentActivity, setRecentActivity] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const fetchTodayAttendance = async () => {
+    const fetchDashboardData = async () => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            const { data } = await axios.get(`${apiUrl}/api/attendance/today`, { withCredentials: true });
-            setAttendance(data);
-        } catch (error) {
-            console.error('Failed to fetch attendance', error);
-        }
-    };
+            const headers = { withCredentials: true };
 
-    const fetchLeaveData = async () => {
-        if (!user) return;
-        try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-            if (user.role === 'employee') {
-                const { data } = await axios.get(`${apiUrl}/api/leaves/balance`, { withCredentials: true });
-                setLeaveBalance(data);
-            } else if (user.role === 'admin') {
-                const { data } = await axios.get(`${apiUrl}/api/leaves/all`, { withCredentials: true });
-                setPendingLeaves(data.filter((l: any) => l.status === 'pending').length);
+            const [attendanceRes, leavesRes, teamRes, recentRes] = await Promise.all([
+                axios.get(`${apiUrl}/api/attendance/today`, headers),
+                user?.role === 'admin' ? axios.get(`${apiUrl}/api/leaves/all`, headers) : Promise.resolve({ data: [] }),
+                axios.get(`${apiUrl}/api/attendance/team-status`, headers),
+                axios.get(`${apiUrl}/api/attendance/recent-activity`, headers)
+            ]);
+
+            setAttendance(attendanceRes.data);
+            if (user?.role === 'admin') {
+                setPendingLeaves(leavesRes.data.filter((l: any) => l.status === 'pending').length);
             }
+            setTeamStatus(teamRes.data);
+            setRecentActivity(recentRes.data);
+
         } catch (error) {
-            console.error('Failed to fetch leave data', error);
+            console.error('Failed to fetch dashboard data', error);
         }
     };
 
     useEffect(() => {
-        fetchTodayAttendance();
-        fetchLeaveData();
+        if (user) {
+            fetchDashboardData();
+        }
     }, [user]);
 
     const handleCheckIn = async () => {
@@ -50,7 +50,7 @@ const Dashboard = () => {
             setLoading(true);
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             await axios.post(`${apiUrl}/api/attendance/check-in`, {}, { withCredentials: true });
-            await fetchTodayAttendance();
+            await fetchDashboardData();
         } catch (error: any) {
             console.error('Check-in failed', error);
             alert(error.response?.data?.message || 'Check-in failed');
@@ -64,7 +64,7 @@ const Dashboard = () => {
             setLoading(true);
             const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             await axios.post(`${apiUrl}/api/attendance/check-out`, {}, { withCredentials: true });
-            await fetchTodayAttendance();
+            await fetchDashboardData();
         } catch (error: any) {
             console.error('Check-out failed', error);
             alert(error.response?.data?.message || 'Check-out failed');
@@ -73,160 +73,119 @@ const Dashboard = () => {
         }
     };
 
-    const container = {
+    const container: Variants = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1
+                staggerChildren: 0.1,
+                delayChildren: 0.2
             }
         }
     };
 
-    const item = {
+    const item: Variants = {
         hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0 }
+        show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50 } }
     };
 
     return (
         <motion.div
+            className="space-y-8"
             variants={container}
             initial="hidden"
             animate="show"
-            className="space-y-6"
         >
             <motion.div variants={item}>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-slate-100">Dashboard</h1>
-                <p className="text-slate-600 dark:text-slate-400 font-medium">Welcome back, {user?.name}</p>
+                <h1 className="text-4xl font-bold tracking-tight text-slate-900 leading-tight">Dashboard</h1>
+                <p className="text-slate-600 font-medium text-lg mt-2">
+                    Welcome back, {user?.name}. Here's what's happening today.
+                </p>
             </motion.div>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <motion.div variants={item}>
-                    <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 backdrop-blur-sm overflow-hidden relative">
-                        <div className="absolute top-0 right-0 p-4 opacity-10">
-                            <Clock className="w-24 h-24" />
-                        </div>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                            <CardTitle className="text-sm font-semibold text-slate-800 dark:text-slate-200">Today's Attendance</CardTitle>
-                            <Clock className="h-4 w-4 text-primary" />
-                        </CardHeader>
-                        <CardContent className="relative z-10">
-                            <div className="text-xs text-slate-600 mb-6 font-semibold uppercase tracking-wider">{today}</div>
-                            <div className="flex flex-col gap-3">
-                                {attendance ? (
-                                    <>
-                                        <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-900/30">
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400" />
-                                                <span className="text-sm font-medium text-green-700 dark:text-green-300">Check In</span>
-                                            </div>
-                                            <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                                {new Date(attendance.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
-                                        </div>
-                                        {attendance.checkOutTime ? (
-                                            <div className="flex items-center justify-between p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-100 dark:border-orange-900/30">
-                                                <div className="flex items-center gap-2">
-                                                    <LogOutIcon className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-                                                    <span className="text-sm font-medium text-orange-700 dark:text-orange-300">Check Out</span>
-                                                </div>
-                                                <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
-                                                    {new Date(attendance.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </span>
-                                            </div>
-                                        ) : (
-                                            <Button
-                                                variant="outline"
-                                                className="w-full mt-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300 transition-colors"
-                                                onClick={handleCheckOut}
-                                                isLoading={loading}
-                                            >
-                                                Check Out
-                                            </Button>
-                                        )}
-                                    </>
-                                ) : (
-                                    <div className="text-center py-4">
-                                        <p className="text-sm text-slate-500 mb-4">You haven't checked in yet today.</p>
-                                        <Button
-                                            className="w-full h-12 text-base font-bold bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-xl shadow-slate-900/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] rounded-xl"
-                                            onClick={handleCheckIn}
-                                            isLoading={loading}
-                                        >
-                                            Check In Now
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
+            {/* Widgets Grid */}
+            <div className="grid gap-6 md:grid-cols-3">
+                {/* Attendance Widget */}
+                <motion.div variants={item} className="md:col-span-1 h-80">
+                    <AttendanceWidget
+                        checkInTime={attendance?.checkInTime}
+                        checkOutTime={attendance?.checkOutTime}
+                        onCheckIn={handleCheckIn}
+                        onCheckOut={handleCheckOut}
+                        loading={loading}
+                    />
                 </motion.div>
 
-                {user?.role === 'employee' && (
-                    <motion.div variants={item}>
-                        <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 backdrop-blur-sm overflow-hidden relative">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                                <CalendarDays className="w-24 h-24" />
-                            </div>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Leave Balance</CardTitle>
-                                <CalendarDays className="h-4 w-4 text-primary" />
-                            </CardHeader>
-                            <CardContent className="relative z-10">
-                                <div className="grid grid-cols-3 gap-3 mt-4">
-                                    <BalanceCard label="Casual" count={leaveBalance?.casual || 0} color="blue" />
-                                    <BalanceCard label="Sick" count={leaveBalance?.sick || 0} color="red" />
-                                    <BalanceCard label="Paid" count={leaveBalance?.paid || 0} color="green" />
+                {/* Pending Requests Widget */}
+                {user?.role === 'admin' ? (
+                    <motion.div variants={item} className="md:col-span-1 h-80">
+                        <StatsWidget title="Pending Requests" icon={AlertCircle}>
+                            <div className="flex items-center gap-6">
+                                <div className="bg-orange-100 p-4 rounded-2xl">
+                                    <FileText className="w-12 h-12 text-orange-500" />
                                 </div>
-                            </CardContent>
-                        </Card>
+                                <div>
+                                    <div className="text-6xl font-bold text-slate-800">{pendingLeaves}</div>
+                                    <div className="text-slate-500 font-medium leading-tight mt-1">pending<br />approvals</div>
+                                </div>
+                            </div>
+                            <div className="mt-8 text-sm text-slate-500 font-medium">
+                                Employees waiting for your response.
+                            </div>
+                        </StatsWidget>
+                    </motion.div>
+                ) : (
+                    <motion.div variants={item} className="md:col-span-1 h-80">
+                        {/* Placeholder for Employee second widget if needed, keeping it balanced */}
+                        <StatsWidget title="My Status" icon={CheckCircle2}>
+                            <div className="flex flex-col items-center text-center">
+                                <div className="text-4xl font-bold text-slate-800 mb-2">Active</div>
+                                <p className="text-slate-500">You are currently marked active.</p>
+                            </div>
+                        </StatsWidget>
                     </motion.div>
                 )}
 
-                {user?.role === 'admin' && (
-                    <motion.div variants={item}>
-                        <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 backdrop-blur-sm overflow-hidden relative">
-                            <div className="absolute top-0 right-0 p-4 opacity-10">
-                                <FileText className="w-24 h-24" />
+                {/* Team Status Widget (Visual Only for now as per design) */}
+                <motion.div variants={item} className="md:col-span-1 h-80">
+                    <StatsWidget title="Team Status" icon={CheckCircle2}>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-sm font-semibold text-slate-600">In Office</span>
+                            <span className="text-sm font-bold text-slate-900">{teamStatus.inOffice} / {teamStatus.totalEmployees}</span>
+                        </div>
+                        <div className="w-full bg-slate-200 rounded-full h-2 mb-6">
+                            <div
+                                className="bg-green-500 h-2 rounded-full transition-all duration-1000"
+                                style={{ width: `${teamStatus.totalEmployees > 0 ? (teamStatus.inOffice / teamStatus.totalEmployees) * 100 : 0}%` }}
+                            ></div>
+                        </div>
+
+                        <div className="flex justify-between items-center mb-6">
+                            <span className="text-sm font-semibold text-slate-600">On Leave</span>
+                            <span className="text-sm font-bold text-slate-900">{teamStatus.onLeave}</span>
+                        </div>
+
+                        <div className="flex items-center">
+                            {/* Mock Avatars */}
+                            <div className="flex -space-x-2 overflow-hidden">
+                                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-gray-300"></div>
+                                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-gray-400"></div>
+                                <div className="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-gray-500"></div>
                             </div>
-                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                                <CardTitle className="text-sm font-medium text-slate-700 dark:text-slate-300">Pending Requests</CardTitle>
-                                <AlertCircle className="h-4 w-4 text-orange-500" />
-                            </CardHeader>
-                            <CardContent className="relative z-10">
-                                <div className="mt-4 flex items-baseline gap-2">
-                                    <span className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">{pendingLeaves}</span>
-                                    <span className="text-sm text-slate-500 font-medium">pending approvals</span>
-                                </div>
-                                <p className="text-xs text-slate-400 mt-2">
-                                    Employees waiting for your response.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                )}
+                        </div>
+
+                        <button className="text-blue-600 font-semibold text-sm mt-auto flex items-center gap-1 hover:gap-2 transition-all">
+                            View all employees →
+                        </button>
+                    </StatsWidget>
+                </motion.div>
             </div>
+
+            {/* Recent Activity Section */}
+            <motion.div variants={item}>
+                <RecentActivity activities={recentActivity} />
+            </motion.div>
         </motion.div>
-    );
-};
-
-// Helper components for cleaner code
-const LogOutIcon = ({ className }: { className?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
-);
-
-const BalanceCard = ({ label, count, color }: { label: string, count: number, color: string }) => {
-    const colorClasses: Record<string, string> = {
-        blue: 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 border-blue-100 dark:border-blue-900/30',
-        red: 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300 border-red-100 dark:border-red-900/30',
-        green: 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-300 border-green-100 dark:border-green-900/30',
-    };
-
-    return (
-        <div className={`p-3 rounded-xl border ${colorClasses[color]} flex flex-col items-center justify-center transition-transform hover:scale-105`}>
-            <div className="text-2xl font-bold">{count}</div>
-            <div className="text-[10px] uppercase tracking-wider font-semibold opacity-80">{label}</div>
-        </div>
     );
 };
 

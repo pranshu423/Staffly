@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IPayroll extends Document {
     employeeId: mongoose.Schema.Types.ObjectId;
+    companyId: mongoose.Schema.Types.ObjectId;
     month: string; // YYYY-MM
     baseSalary: number;
     deductions: number;
@@ -11,6 +12,7 @@ export interface IPayroll extends Document {
 
 const PayrollSchema: Schema = new Schema({
     employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
     month: { type: String, required: true },
     baseSalary: { type: Number, required: true },
     deductions: { type: Number, default: 0 },

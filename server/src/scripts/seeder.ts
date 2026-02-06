@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import User from '../models/User';
 import Company from '../models/Company';
+import Attendance from '../models/Attendance';
+import Leave from '../models/Leave';
+import Payroll from '../models/Payroll';
 import { connectDB } from '../config/db';
 
 dotenv.config();
@@ -36,6 +39,9 @@ const seedData = async () => {
         // Clear existing data
         await Company.deleteMany({});
         await User.deleteMany({});
+        await Attendance.deleteMany({});
+        await Leave.deleteMany({});
+        await Payroll.deleteMany({});
         console.log('Data cleared');
 
         // Create Demo Company

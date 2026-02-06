@@ -15,6 +15,7 @@ export const generatePayroll = async (req: Request, res: Response) => {
 
         const payroll = await Payroll.create({
             employeeId,
+            companyId: (req as any).user.companyId,
             month,
             baseSalary,
             deductions: deductions || 0,
@@ -50,7 +51,7 @@ export const getMyPayroll = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const getAllPayroll = async (req: Request, res: Response) => {
     try {
-        const payrolls = await Payroll.find().populate('employeeId', 'name email employeeId department').sort({ month: -1 });
+        const payrolls = await Payroll.find({ companyId: (req as any).user.companyId }).populate('employeeId', 'name email employeeId department').sort({ month: -1 });
         res.json(payrolls);
     } catch (error: any) {
         res.status(500).json({ message: error.message });

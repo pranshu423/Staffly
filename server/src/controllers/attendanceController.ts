@@ -23,6 +23,7 @@ export const checkIn = async (req: Request, res: Response) => {
 
         const attendance = await Attendance.create({
             employeeId,
+            companyId: (req as any).user.companyId,
             date: today,
             checkInTime: new Date(),
             status: 'Present'
@@ -109,9 +110,67 @@ export const getMyAttendance = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const getAllAttendance = async (req: Request, res: Response) => {
     try {
-        // Basic implementation, could add filtering by date/employee
-        const attendance = await Attendance.find().populate('employeeId', 'name email employeeId department').sort({ date: -1 });
+        // Filter by company
+        const attendance = await Attendance.find({ companyId: (req as any).user.companyId }).populate('employeeId', 'name email employeeId department').sort({ date: -1 });
         res.json(attendance);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get team status stats
+// @route   GET /api/attendance/team-status
+// @access  Private
+export const getTeamStatus = async (req: Request, res: Response) => {
+    try {
+        const companyId = (req as any).user.companyId;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Total Employees
+        const totalEmployees = await User.countDocuments({ companyId, role: 'employee' });
+
+        // In Office (Checked in today)
+        const activeAttendance = await Attendance.find({
+            companyId,
+            date: today,
+            checkInTime: { $exists: true }
+        });
+        const inOffice = activeAttendance.length;
+
+        // On Leave (Simple mock or query leaves if available - assuming 0 for now to keep it safe, or check Leave model later)
+        // For now, let's return a safe mock or 0, as Leave model integration requires more check
+        const onLeave = 0;
+
+        res.json({
+            totalEmployees,
+            inOffice,
+            onLeave
+        });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get recent activity for company
+// @route   GET /api/attendance/recent-activity
+// @access  Private
+export const getRecentActivity = async (req: Request, res: Response) => {
+    try {
+        const companyId = (req as any).user.companyId;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Get recent check-ins/outs for today
+        const recent = await Attendance.find({
+            companyId,
+            date: today
+        })
+            .populate('employeeId', 'name')
+            .sort({ updatedAt: -1 }) // Sort by most recent update (check-in or check-out)
+            .limit(5);
+
+        res.json(recent);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
