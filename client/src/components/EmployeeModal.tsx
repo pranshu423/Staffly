@@ -122,6 +122,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onClose, onSucces
                         value={formData.password}
                         onChange={handleChange}
                         required={!employeeToEdit}
+                        autoComplete="new-password"
                     />
                     <Input
                         label="Department"
