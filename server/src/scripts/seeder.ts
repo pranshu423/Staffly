@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import User from '../models/User';
+import Company from '../models/Company';
 import { connectDB } from '../config/db';
 
 dotenv.config();
@@ -32,12 +33,23 @@ const seedData = async () => {
     try {
         await connectDB();
 
-        // Clear existing users
+        // Clear existing data
+        await Company.deleteMany({});
         await User.deleteMany({});
-        console.log('Users cleared');
+        console.log('Data cleared');
 
-        // Create new users
-        await User.create(employeesBuffer);
+        // Create Demo Company
+        const company = await Company.create({
+            name: 'Staffly Demo Corp'
+        });
+
+        // Create new users linked to company
+        const employeesWithCompany = employeesBuffer.map(emp => ({
+            ...emp,
+            companyId: company._id
+        }));
+
+        await User.create(employeesWithCompany);
         console.log('Users imported');
 
         process.exit();

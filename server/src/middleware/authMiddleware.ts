@@ -27,7 +27,12 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as JwtPayload;
+            // Explicitly select companyId
             req.user = await User.findById(decoded.id).select('-password');
+            if (!req.user || !req.user.companyId) {
+                res.status(401).json({ message: 'Not authorized, invalid user context' });
+                return;
+            }
             next();
         } catch (error) {
             res.status(401).json({ message: 'Not authorized, token failed' });

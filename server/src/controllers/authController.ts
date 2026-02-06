@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
+import Company from '../models/Company';
 import generateToken from '../utils/generateToken';
 
 // @desc    Register a new user (Company Admin)
@@ -16,18 +17,19 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             return;
         }
 
-        // First user is always admin
-        // In a real SaaS, we might have tenantId etc. 
-        // Here we assume single tenant or simplistic approach as per prompt.
-        // The prompt says "Registration page (Company signup – creates Admin)"
+        // Create new company
+        const company = await Company.create({
+            name: companyName
+        });
 
         const user = await User.create({
             name,
             email,
             password,
             role: 'admin',
-            employeeId: 'ADMIN-' + Math.floor(Math.random() * 10000), // simplistic ID
-            department: 'Management'
+            employeeId: 'ADMIN-' + Math.floor(Math.random() * 10000),
+            department: 'Management',
+            companyId: company._id
         });
 
         if (user) {
@@ -44,6 +46,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                companyName: company.name,
                 token
             });
         } else {
@@ -66,6 +69,10 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         if (user && (await user.matchPassword(password))) {
             const token = generateToken(user._id as unknown as string, user.role);
 
+            // Populate company details to get name
+            await user.populate('companyId');
+            const companyName = (user.companyId as any).name;
+
             res.cookie('jwt', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
@@ -78,6 +85,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                companyName: companyName,
                 token
             });
         } else {

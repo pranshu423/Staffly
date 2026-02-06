@@ -5,9 +5,15 @@ import bcrypt from 'bcrypt';
 // @desc    Get all employees
 // @route   GET /api/employees
 // @access  Private/Admin
+// @desc    Get all employees
+// @route   GET /api/employees
+// @access  Private/Admin
 export const getEmployees = async (req: Request, res: Response) => {
     try {
-        const employees = await User.find({ role: 'employee' }).select('-password');
+        const employees = await User.find({
+            role: 'employee',
+            companyId: req.user.companyId
+        }).select('-password');
         res.json(employees);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -38,7 +44,8 @@ export const createEmployee = async (req: Request, res: Response) => {
             role: 'employee',
             employeeId,
             department,
-            joiningDate
+            joiningDate,
+            companyId: req.user.companyId
         });
 
         if (user) {
@@ -64,7 +71,10 @@ export const updateEmployee = async (req: Request, res: Response) => {
     const { name, email, department, role, isActive } = req.body;
 
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findOne({
+            _id: req.params.id,
+            companyId: req.user.companyId
+        });
 
         if (user) {
             user.name = name || user.name;
@@ -96,7 +106,10 @@ export const updateEmployee = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const deleteEmployee = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findOne({
+            _id: req.params.id,
+            companyId: req.user.companyId
+        });
 
         if (user) {
             await user.deleteOne();
