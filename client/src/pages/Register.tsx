@@ -5,7 +5,6 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import ThemeToggle from '../components/ThemeToggle';
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -41,12 +40,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#AAB99A] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-500">
-            {/* Theme Toggle */}
-            <div className="absolute top-6 right-6 z-50">
-                <ThemeToggle />
-            </div>
-
+        <div className="min-h-screen bg-sage-gradient dark:bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-500">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -54,8 +48,8 @@ const Register = () => {
                 className="sm:mx-auto sm:w-full sm:max-w-md relative z-10"
             >
                 <div className="text-center mb-8">
-                    <h2 className="text-5xl font-['Pacifico'] font-normal text-slate-800 dark:text-slate-100 tracking-wide mb-2">
-                        Join <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">Staffly</span>
+                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black dark:text-white tracking-wide mb-2">
+                        Join Staffly
                     </h2>
                     <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 font-medium">
                         Start your journey with us
