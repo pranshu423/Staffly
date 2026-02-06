@@ -59,10 +59,10 @@ const Login = () => {
                     }}
                     className="text-center mb-8"
                 >
-                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black dark:text-white mb-2 tracking-wide">
+                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black mb-2 tracking-wide">
                         Staffly
                     </h2>
-                    <p className="mt-2 text-slate-600 dark:text-slate-400 font-medium">
+                    <p className="mt-2 text-black font-medium">
                         Elevate your workforce management
                     </p>
                 </motion.div>
@@ -72,9 +72,9 @@ const Login = () => {
                         hidden: { opacity: 0, scale: 0.95 },
                         show: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
                     }}
-                    className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden"
+                    className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-black/5 border-slate-400/20"
                 >
-                    <div className="absolute inset-0 bg-white/40 backdrop-blur-xl z-[-1]" />
+                    <div className="absolute inset-0 bg-transparent backdrop-blur-xl z-[-1]" />
                     <form className="space-y-5" onSubmit={handleSubmit}>
                         <Input
                             label="Email address"
@@ -82,7 +82,7 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="h-12 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                            className="h-12 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                         />
 
                         <div>
@@ -92,7 +92,7 @@ const Login = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="h-12 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                                className="h-12 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                             />
                         </div>
 
@@ -100,7 +100,7 @@ const Login = () => {
                             <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="text-red-500 text-sm font-medium bg-red-50/50 dark:bg-red-900/10 p-3 rounded-lg border border-red-100 dark:border-red-900/20"
+                                className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-lg border border-red-100"
                             >
                                 {error}
                             </motion.div>
@@ -116,7 +116,7 @@ const Login = () => {
 
                         <div className="relative my-6">
                             <div className="relative flex justify-center text-xs uppercase tracking-wider">
-                                <span className="bg-transparent px-2 text-slate-500 dark:text-slate-400 font-bold">
+                                <span className="bg-transparent px-2 text-black font-bold">
                                     Demo Access
                                 </span>
                             </div>
@@ -126,7 +126,7 @@ const Login = () => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="h-11 border-none bg-white/40 dark:bg-white/5 hover:bg-white/60 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 font-medium rounded-xl text-sm"
+                                className="h-11 border-none bg-black/5 hover:bg-black/10 text-black font-medium rounded-xl text-sm"
                                 onClick={() => {
                                     setEmail('admin@staffly.com');
                                     setPassword('admin123');
@@ -137,7 +137,7 @@ const Login = () => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="h-11 border-none bg-white/40 dark:bg-white/5 hover:bg-white/60 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 font-medium rounded-xl text-sm"
+                                className="h-11 border-none bg-black/5 hover:bg-black/10 text-black font-medium rounded-xl text-sm"
                                 onClick={() => {
                                     setEmail('employee@staffly.com');
                                     setPassword('employee123');
@@ -149,7 +149,7 @@ const Login = () => {
                     </form>
 
                     <div className="mt-8 text-center">
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <p className="text-sm text-black">
                             Don't have an account?{' '}
                             <Link to="/register" className="font-bold text-purple-600 hover:text-purple-500 dark:text-purple-400 hover:underline">
                                 Register company

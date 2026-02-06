@@ -59,7 +59,7 @@ const Attendance = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800 dark:text-slate-400">
+                                <thead className="text-xs text-black uppercase bg-white border-b-2 border-slate-100">
                                     <tr>
                                         {isAdmin && <th className="px-6 py-3">Employee</th>}
                                         <th className="px-6 py-3">Date</th>

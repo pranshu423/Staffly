@@ -48,16 +48,16 @@ const Register = () => {
                 className="sm:mx-auto sm:w-full sm:max-w-md relative z-10"
             >
                 <div className="text-center mb-8">
-                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black dark:text-white tracking-wide mb-2">
+                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black tracking-wide mb-2">
                         Join Staffly
                     </h2>
-                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 font-medium">
+                    <p className="mt-2 text-sm text-black font-medium">
                         Start your journey with us
                     </p>
                 </div>
 
-                <div className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-white/40 backdrop-blur-xl z-[-1]" />
+                <div className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-black/5 border-slate-400/20">
+                    <div className="absolute inset-0 bg-transparent backdrop-blur-xl z-[-1]" />
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <Input
                             label="Full Name"
@@ -65,7 +65,7 @@ const Register = () => {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="h-11 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                         />
 
                         <Input
@@ -74,7 +74,7 @@ const Register = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="h-11 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                         />
 
                         <Input
@@ -83,7 +83,7 @@ const Register = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="h-11 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                         />
 
                         <Input
@@ -92,14 +92,14 @@ const Register = () => {
                             required
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
-                            className="h-11 bg-slate-200/80 dark:bg-black/20 border-transparent focus:border-purple-500 focus:ring-purple-500 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-500 rounded-xl"
+                            className="h-11 bg-slate-200/50 border-transparent focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-600 rounded-xl"
                         />
 
                         {error && (
                             <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="text-red-500 text-sm font-medium bg-red-50/50 dark:bg-red-900/10 p-3 rounded-lg"
+                                className="text-red-500 text-sm font-medium bg-red-50 p-3 rounded-lg"
                             >
                                 {error}
                             </motion.div>
@@ -117,7 +117,7 @@ const Register = () => {
                     </form>
 
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                        <p className="text-sm text-black">
                             Already have an account?{' '}
                             <Link to="/login" className="font-bold text-purple-600 hover:text-purple-500 dark:text-purple-400 transition-colors">
                                 Sign in
