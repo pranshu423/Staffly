@@ -126,7 +126,7 @@ const Login = () => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="h-11 border-none bg-black/5 hover:bg-black/10 text-black font-medium rounded-xl text-sm"
+                                className="h-11 border-none bg-black/5 hover:bg-white/40 text-black font-medium rounded-xl text-sm transition-colors"
                                 onClick={() => {
                                     setEmail('admin@staffly.com');
                                     setPassword('admin123');
@@ -137,7 +137,7 @@ const Login = () => {
                             <Button
                                 type="button"
                                 variant="outline"
-                                className="h-11 border-none bg-black/5 hover:bg-black/10 text-black font-medium rounded-xl text-sm"
+                                className="h-11 border-none bg-black/5 hover:bg-white/40 text-black font-medium rounded-xl text-sm transition-colors"
                                 onClick={() => {
                                     setEmail('employee@staffly.com');
                                     setPassword('employee123');
