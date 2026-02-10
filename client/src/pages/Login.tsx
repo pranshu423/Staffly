@@ -82,6 +82,7 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            labelClassName="text-black dark:text-black"
                             className="h-12 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
@@ -92,6 +93,7 @@ const Login = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                labelClassName="text-black dark:text-black"
                                 className="h-12 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                             />
                         </div>
@@ -120,7 +122,7 @@ const Login = () => {
                     <div className="mt-8 text-center">
                         <p className="text-sm text-black">
                             Don't have an account?{' '}
-                            <Link to="/register" className="font-bold text-purple-600 hover:text-purple-500 dark:text-purple-400 hover:underline">
+                            <Link to="/register" className="font-bold text-black hover:text-slate-700 hover:underline">
                                 Register company
                             </Link>
                         </p>

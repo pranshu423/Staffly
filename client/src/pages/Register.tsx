@@ -65,6 +65,7 @@ const Register = () => {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            labelClassName="text-black dark:text-black"
                             className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
@@ -74,6 +75,7 @@ const Register = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            labelClassName="text-black dark:text-black"
                             className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
@@ -83,6 +85,7 @@ const Register = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            labelClassName="text-black dark:text-black"
                             className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
@@ -92,6 +95,7 @@ const Register = () => {
                             required
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
+                            labelClassName="text-black dark:text-black"
                             className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
                         />
 
@@ -119,7 +123,7 @@ const Register = () => {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-black">
                             Already have an account?{' '}
-                            <Link to="/login" className="font-bold text-purple-600 hover:text-purple-500 dark:text-purple-400 transition-colors">
+                            <Link to="/login" className="font-bold text-black hover:text-slate-700 transition-colors">
                                 Sign in
                             </Link>
                         </p>

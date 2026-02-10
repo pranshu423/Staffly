@@ -9,14 +9,15 @@ function cn(...inputs: ClassValue[]) {
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     error?: string;
+    labelClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-    ({ className, type, label, error, ...props }, ref) => {
+    ({ className, type, label, error, labelClassName, ...props }, ref) => {
         return (
             <div className="w-full">
                 {label && (
-                    <label className="block text-sm font-bold text-slate-900 dark:text-slate-100 mb-1.5 ml-1">
+                    <label className={cn("block text-sm font-bold text-slate-900 dark:text-slate-100 mb-1.5 ml-1", labelClassName)}>
                         {label}
                     </label>
                 )}
