@@ -71,7 +71,7 @@ const Attendance = () => {
                                 </thead>
                                 <tbody>
                                     {Array.isArray(attendance) && attendance.map((record) => (
-                                        <tr key={record._id} className="bg-white border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                                        <tr key={record._id} className="bg-white border-b border-slate-100 hover:bg-slate-50 transition-colors text-slate-900">
                                             {isAdmin && (
                                                 <td className="px-6 py-4 font-medium">
                                                     {record.employeeId && typeof record.employeeId === 'object' ? record.employeeId.name : 'Unknown'}
