@@ -69,9 +69,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         if (user && (await user.matchPassword(password))) {
             const token = generateToken(user._id as unknown as string, user.role);
 
-            // Populate company details to get name
-            await user.populate('companyId');
-            const companyName = (user.companyId as any).name;
+            const companyName = user.companyId ? (user.companyId as any).name : 'Unknown';
 
             res.cookie('jwt', token, {
                 httpOnly: true,

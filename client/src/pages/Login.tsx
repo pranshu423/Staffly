@@ -114,38 +114,7 @@ const Login = () => {
                             Sign in
                         </Button>
 
-                        <div className="relative my-6">
-                            <div className="relative flex justify-center text-xs uppercase tracking-wider">
-                                <span className="bg-transparent px-2 text-black font-bold">
-                                    Demo Access
-                                </span>
-                            </div>
-                        </div>
 
-                        <div className="grid grid-cols-2 gap-3">
-                            <Button
-                                type="button"
-                                variant="outline"
-                                className="h-11 border-none bg-black/5 hover:bg-white/40 text-black font-medium rounded-xl text-sm transition-colors"
-                                onClick={() => {
-                                    setEmail('admin@staffly.com');
-                                    setPassword('admin123');
-                                }}
-                            >
-                                👨‍💼 Demo Admin
-                            </Button>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                className="h-11 border-none bg-black/5 hover:bg-white/40 text-black font-medium rounded-xl text-sm transition-colors"
-                                onClick={() => {
-                                    setEmail('employee@staffly.com');
-                                    setPassword('employee123');
-                                }}
-                            >
-                                👷 Demo Employee
-                            </Button>
-                        </div>
                     </form>
 
                     <div className="mt-8 text-center">
