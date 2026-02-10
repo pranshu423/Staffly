@@ -69,10 +69,11 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onClose, onSucces
         setError('');
 
         try {
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
             if (employeeToEdit) {
-                await axios.put(`http://localhost:5000/api/employees/${employeeToEdit._id}`, formData, { withCredentials: true });
+                await axios.put(`${apiUrl}/api/employees/${employeeToEdit._id}`, formData, { withCredentials: true });
             } else {
-                await axios.post('http://localhost:5000/api/employees', formData, { withCredentials: true });
+                await axios.post(`${apiUrl}/api/employees`, formData, { withCredentials: true });
             }
             onSuccess();
             onClose();
