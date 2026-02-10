@@ -131,19 +131,14 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onClose, onSucces
                         onChange={handleChange}
                     />
 
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Joining Date
-                        </label>
-                        <input
-                            type="date"
-                            name="joiningDate"
-                            value={formData.joiningDate}
-                            onChange={handleChange}
-                            className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
-                            required
-                        />
-                    </div>
+                    <Input
+                        label="Joining Date"
+                        type="date"
+                        name="joiningDate"
+                        value={formData.joiningDate}
+                        onChange={handleChange}
+                        required
+                    />
 
                     <div className="flex justify-end gap-3 mt-6">
                         <Button type="button" variant="ghost" onClick={onClose}>Cancel</Button>
