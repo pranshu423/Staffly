@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 import Leave from '../models/Leave';
+import User from '../models/User'; // Import User model
+import { getIO, getUserSocketId } from '../socket';
+import { sendEmail, emailTemplates } from '../utils/emailService'; // Import email service
 
 const TOTAL_LEAVES = {
     casual: 12,
@@ -14,6 +17,7 @@ export const applyLeave = async (req: Request, res: Response) => {
     try {
         const { type, fromDate, toDate, reason } = req.body;
         const employeeId = (req as any).user._id;
+        const userName = (req as any).user.name;
 
         const leave = await Leave.create({
             employeeId,
@@ -23,6 +27,32 @@ export const applyLeave = async (req: Request, res: Response) => {
             toDate,
             reason
         });
+
+        // Notify Admins (Socket & Email)
+        try {
+            const io = getIO();
+            io.to('admin_room').emit('new_leave_request', {
+                leaveId: leave._id,
+                employeeName: userName,
+                type,
+                reason
+            });
+
+            // Find admins to email
+            const admins = await User.find({ role: 'admin', companyId: (req as any).user.companyId });
+            for (const admin of admins) {
+                if (admin.email) {
+                    await sendEmail(
+                        admin.email,
+                        'New Leave Request',
+                        emailTemplates.newLeaveRequest(admin.name, userName, type, reason)
+                    );
+                }
+            }
+
+        } catch (err) {
+            console.error('Notification failed:', err);
+        }
 
         res.status(201).json(leave);
     } catch (error: any) {
@@ -47,7 +77,9 @@ export const getMyLeaves = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const getAllLeaves = async (req: Request, res: Response) => {
     try {
-        const leaves = await Leave.find({ companyId: (req as any).user.companyId }).populate('employeeId', 'name email employeeId department').sort({ createdAt: -1 });
+        const leaves = await Leave.find({ companyId: (req as any).user.companyId })
+            .populate('employeeId', 'name email')
+            .sort({ createdAt: -1 });
         res.json(leaves);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -60,7 +92,7 @@ export const getAllLeaves = async (req: Request, res: Response) => {
 export const updateLeaveStatus = async (req: Request, res: Response) => {
     try {
         const { status } = req.body;
-        const leave = await Leave.findById(req.params.id);
+        const leave = await Leave.findById(req.params.id).populate('employeeId', 'name email'); // Populate employee details
 
         if (!leave) {
             res.status(404).json({ message: 'Leave not found' });
@@ -69,6 +101,32 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
 
         leave.status = status;
         await leave.save();
+
+        // Notify Employee (Socket & Email)
+        try {
+            const io = getIO();
+            const employeeIdStr = (leave.employeeId as any)._id.toString();
+            const socketId = getUserSocketId(employeeIdStr);
+
+            if (socketId) {
+                io.to(socketId).emit('leave_status_updated', {
+                    leaveId: leave._id,
+                    status
+                });
+            }
+
+            // Send Email
+            if ((leave.employeeId as any).email) {
+                await sendEmail(
+                    (leave.employeeId as any).email,
+                    `Leave Request Updated: ${status.toUpperCase()}`,
+                    emailTemplates.leaveStatusUpdate((leave.employeeId as any).name, leave.type, status)
+                );
+            }
+
+        } catch (err) {
+            console.error('Notification failed:', err);
+        }
 
         res.json(leave);
     } catch (error: any) {

@@ -112,9 +112,9 @@ const Payroll = () => {
                                                 </td>
                                             )}
                                             <td className="px-6 py-4">{record.month}</td>
-                                            <td className="px-6 py-4">${record.baseSalary}</td>
-                                            <td className="px-6 py-4 text-red-500">-${record.deductions}</td>
-                                            <td className="px-6 py-4 font-bold text-green-600">${record.netPay}</td>
+                                            <td className="px-6 py-4">₹{record.baseSalary}</td>
+                                            <td className="px-6 py-4 text-red-500">-₹{record.deductions}</td>
+                                            <td className="px-6 py-4 font-bold text-green-600">₹{record.netPay}</td>
                                             <td className="px-6 py-4">
                                                 <button
                                                     onClick={() => {

@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         return (
             <div className="w-full">
                 {label && (
-                    <label className={cn("block text-sm font-bold text-slate-900 dark:text-slate-100 mb-1.5 ml-1", labelClassName)}>
+                    <label className={cn("block text-sm font-bold text-slate-900 mb-1.5 ml-1", labelClassName)}>
                         {label}
                     </label>
                 )}

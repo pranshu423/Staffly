@@ -11,6 +11,7 @@ export interface IUser extends Document {
     joiningDate: Date;
     isActive: boolean;
     companyId: mongoose.Schema.Types.ObjectId;
+    reportsTo?: mongoose.Schema.Types.ObjectId;
     matchPassword(enteredPassword: string): Promise<boolean>;
 }
 

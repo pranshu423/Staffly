@@ -138,6 +138,20 @@ export const getTeamStatus = async (req: Request, res: Response) => {
         });
         const inOffice = activeAttendance.length;
 
+        // Get preview employees (first 3)
+        const previewAttendance = await Attendance.find({
+            companyId,
+            date: today,
+            checkInTime: { $exists: true }
+        })
+            .populate('employeeId', 'name')
+            .limit(3);
+
+        const previewEmployees = previewAttendance.map((a: any) => ({
+            _id: a.employeeId._id,
+            name: a.employeeId.name
+        }));
+
         // On Leave (Simple mock or query leaves if available - assuming 0 for now to keep it safe, or check Leave model later)
         // For now, let's return a safe mock or 0, as Leave model integration requires more check
         const onLeave = 0;
@@ -145,7 +159,8 @@ export const getTeamStatus = async (req: Request, res: Response) => {
         res.json({
             totalEmployees,
             inOffice,
-            onLeave
+            onLeave,
+            previewEmployees
         });
     } catch (error: any) {
         res.status(500).json({ message: error.message });

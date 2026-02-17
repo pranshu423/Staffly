@@ -13,18 +13,28 @@ app.use(cors({
     credentials: true
 }));
 
+// Serve static files
+import path from 'path';
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 // Routes
 import authRoutes from './routes/authRoutes';
 import employeeRoutes from './routes/employeeRoutes';
 import attendanceRoutes from './routes/attendanceRoutes';
 import leaveRoutes from './routes/leaveRoutes';
 import payrollRoutes from './routes/payrollRoutes';
+import recruitmentRoutes from './routes/recruitmentRoutes';
+import assetRoutes from './routes/assetRoutes';
+import documentRoutes from './routes/documentRoutes';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/employees', employeeRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/leaves', leaveRoutes);
 app.use('/api/payroll', payrollRoutes);
+app.use('/api/recruitment', recruitmentRoutes);
+app.use('/api/assets', assetRoutes);
+app.use('/api/documents', documentRoutes);
 
 // Placeholder Route
 app.get('/', (req, res) => {

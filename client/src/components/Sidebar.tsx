@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Clock, CalendarDays, Receipt, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Clock, CalendarDays, Receipt, LogOut, Briefcase, Box, FileText, Network } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useAuth } from '../context/AuthContext';
 
@@ -10,10 +10,17 @@ const Sidebar = () => {
 
     const menuItems = [
         { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-        ...(isAdmin ? [{ name: 'Employees', icon: Users, path: '/employees' }] : []),
+        ...(isAdmin ? [
+            { name: 'Employees', icon: Users, path: '/employees' },
+            { name: 'Recruitment', icon: Briefcase, path: '/recruitment' },
+            { name: 'Assets', icon: Box, path: '/assets' }
+        ] : []),
+        { name: 'Org Chart', icon: Network, path: '/org-chart' },
         { name: 'Attendance', icon: Clock, path: '/attendance' },
         { name: 'Leaves', icon: CalendarDays, path: '/leaves' },
         { name: 'Payroll', icon: Receipt, path: '/payroll' },
+        { name: 'Documents', icon: FileText, path: '/documents' },
+
     ];
 
     return (

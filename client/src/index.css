@@ -18,6 +18,7 @@
 @layer utilities {
   .bg-sage-gradient {
     background: linear-gradient(135deg, #A8B888 0%, #C1CFA0 100%);
+    color: #0f172a;
   }
 
   .glass-matte {
@@ -26,7 +27,7 @@
 
   .glass-card {
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 100%);
-    @apply backdrop-blur-xl border border-white/50 shadow-sm rounded-[2rem];
+    @apply backdrop-blur-xl border border-white/50 shadow-sm rounded-[2rem] transition-transform duration-300 hover:scale-[1.02];
   }
 }
 

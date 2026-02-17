@@ -1,25 +1,39 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Clock } from 'lucide-react';
+import { LoadingSkeleton } from '../ui/LoadingSkeleton';
 
 interface AttendanceWidgetProps {
     checkInTime?: string;
     checkOutTime?: string;
     onCheckIn: () => void;
     onCheckOut: () => void;
-    loading: boolean;
+    loading: boolean; // Processing state
+    fetching?: boolean; // Initial data load state
 }
 
-const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkOutTime, onCheckIn, onCheckOut, loading }) => {
+const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkOutTime, onCheckIn, onCheckOut, loading, fetching }) => {
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    // const [currentTime, setCurrentTime] = useState(new Date());
 
-    // useEffect(() => {
-    //     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    //     return () => clearInterval(timer);
-    // }, []);
+    if (fetching) {
+        return (
+            <div className="glass-card p-6 flex flex-col h-full justify-between">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <LoadingSkeleton width={120} height={24} />
+                        <LoadingSkeleton width={80} height={16} className="mt-2" />
+                    </div>
+                    <LoadingSkeleton circle width={24} height={24} />
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-center py-2">
+                    <LoadingSkeleton circle width={128} height={128} />
+                </div>
+                <LoadingSkeleton height={48} className="rounded-xl" />
+            </div>
+        );
+    }
 
-    const checkInProgress = checkInTime ? 75 : 0; // 75% complete look when checked in
+    const checkInProgress = checkInTime ? 75 : 0;
     const progress = checkInProgress;
 
     return (

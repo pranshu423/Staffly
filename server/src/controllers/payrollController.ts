@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import Payroll from '../models/Payroll';
+import User from '../models/User';
+import { sendEmail, emailTemplates } from '../utils/emailService';
 
 // @desc    Generate payroll (Admin)
 // @route   POST /api/payroll/generate
@@ -22,6 +24,20 @@ export const generatePayroll = async (req: Request, res: Response) => {
             netPay,
             status: 'paid' // Default to paid as Admin generated it
         });
+
+        // Send Payroll Email
+        try {
+            const employee = await User.findById(employeeId);
+            if (employee && employee.email) {
+                await sendEmail(
+                    employee.email,
+                    `Payroll Generated - ${month}`,
+                    emailTemplates.payrollGenerated(employee.name, month, netPay, 'paid')
+                );
+            }
+        } catch (emailError) {
+            console.error('Failed to send payroll email:', emailError);
+        }
 
         res.status(201).json(payroll);
     } catch (error: any) {
@@ -63,7 +79,7 @@ export const getAllPayroll = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const markAsPaid = async (req: Request, res: Response) => {
     try {
-        const payroll = await Payroll.findById(req.params.id);
+        const payroll = await Payroll.findById(req.params.id).populate('employeeId', 'name email');
 
         if (!payroll) {
             res.status(404).json({ message: 'Payroll record not found' });
@@ -72,6 +88,24 @@ export const markAsPaid = async (req: Request, res: Response) => {
 
         payroll.status = 'paid';
         await payroll.save();
+
+        // Send Email
+        try {
+            if ((payroll.employeeId as any).email) {
+                await sendEmail(
+                    (payroll.employeeId as any).email,
+                    `Payroll Status Update - ${payroll.month}`,
+                    emailTemplates.payrollGenerated(
+                        (payroll.employeeId as any).name,
+                        payroll.month,
+                        payroll.netPay,
+                        'paid'
+                    )
+                );
+            }
+        } catch (emailError) {
+            console.error('Failed to send payroll email:', emailError);
+        }
 
         res.json(payroll);
     } catch (error: any) {

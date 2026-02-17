@@ -1,5 +1,5 @@
 import express from 'express';
-import { getEmployees, createEmployee, updateEmployee, deleteEmployee } from '../controllers/employeeController';
+import { getEmployees, createEmployee, updateEmployee, deleteEmployee, getOrgChart } from '../controllers/employeeController';
 import { protect, admin } from '../middleware/authMiddleware';
 
 const router = express.Router();
@@ -7,6 +7,8 @@ const router = express.Router();
 router.route('/')
     .get(protect, admin, getEmployees)
     .post(protect, admin, createEmployee);
+
+router.get('/org-chart', protect, getOrgChart);
 
 router.route('/:id')
     .put(protect, admin, updateEmployee)

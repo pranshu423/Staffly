@@ -1,6 +1,8 @@
 
 import React from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 interface Activity {
     _id: string;
     employeeId: {
@@ -16,6 +18,8 @@ interface RecentActivityProps {
 }
 
 const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) => {
+    const navigate = useNavigate();
+
     // Helper to format time
     const formatTime = (dateString?: string) => {
         if (!dateString) return '--:--';
@@ -36,7 +40,12 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) => {
         <div className="glass-card p-6 mt-6">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-slate-800">Recent Attendance Activity</h3>
-                <button className="text-sm font-semibold text-blue-600 hover:text-blue-700">View History</button>
+                <button
+                    onClick={() => navigate('/attendance')}
+                    className="text-sm font-semibold text-blue-600 hover:text-blue-700"
+                >
+                    View History
+                </button>
             </div>
 
             <div className="overflow-x-auto">

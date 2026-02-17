@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
+import { sendEmail, emailTemplates } from '../utils/emailService';
 
-// @desc    Get all employees
-// @route   GET /api/employees
-// @access  Private/Admin
 // @desc    Get all employees
 // @route   GET /api/employees
 // @access  Private/Admin
@@ -12,8 +10,23 @@ export const getEmployees = async (req: Request, res: Response) => {
     try {
         const employees = await User.find({
             role: 'employee',
-            companyId: req.user.companyId
+            companyId: (req as any).user.companyId
         }).select('-password');
+        res.json(employees);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get organization chart data
+// @route   GET /api/employees/org-chart
+// @access  Private
+export const getOrgChart = async (req: Request, res: Response) => {
+    try {
+        const employees = await User.find({ companyId: (req as any).user.companyId })
+            .select('name role reportsTo email')
+            .lean();
+
         res.json(employees);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -24,7 +37,7 @@ export const getEmployees = async (req: Request, res: Response) => {
 // @route   POST /api/employees
 // @access  Private/Admin
 export const createEmployee = async (req: Request, res: Response) => {
-    const { name, email, password, department, joiningDate } = req.body;
+    const { name, email, password, department, joiningDate, role, reportsTo } = req.body;
 
     try {
         const userExists = await User.findOne({ email });
@@ -41,20 +54,33 @@ export const createEmployee = async (req: Request, res: Response) => {
             name,
             email,
             password, // Mongoose middleware will hash this
-            role: 'employee',
+            role: role || 'employee',
             employeeId,
             department,
             joiningDate,
-            companyId: req.user.companyId
+            companyId: (req as any).user.companyId,
+            reportsTo
         });
 
         if (user) {
+            // Send Welcome Email containing credentials
+            try {
+                await sendEmail(
+                    user.email,
+                    'Welcome to Staffly - Your Employee Account',
+                    emailTemplates.welcomeEmployee(user.name, user.email, password, user.role)
+                );
+            } catch (emailError) {
+                console.error('Failed to send welcome email:', emailError);
+            }
+
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
-                employeeId: user.employeeId
+                employeeId: user.employeeId,
+                reportsTo: user.reportsTo
             });
         } else {
             res.status(400).json({ message: 'Invalid user data' });
@@ -68,12 +94,12 @@ export const createEmployee = async (req: Request, res: Response) => {
 // @route   PUT /api/employees/:id
 // @access  Private/Admin
 export const updateEmployee = async (req: Request, res: Response) => {
-    const { name, email, department, role, isActive } = req.body;
+    const { name, email, department, role, isActive, reportsTo } = req.body;
 
     try {
         const user = await User.findOne({
             _id: req.params.id,
-            companyId: req.user.companyId
+            companyId: (req as any).user.companyId
         });
 
         if (user) {
@@ -83,6 +109,10 @@ export const updateEmployee = async (req: Request, res: Response) => {
             user.role = role || user.role;
             user.isActive = isActive !== undefined ? isActive : user.isActive;
 
+            if (reportsTo !== undefined) {
+                user.reportsTo = reportsTo || undefined;
+            }
+
             const updatedUser = await user.save();
 
             res.json({
@@ -91,7 +121,8 @@ export const updateEmployee = async (req: Request, res: Response) => {
                 email: updatedUser.email,
                 role: updatedUser.role,
                 department: updatedUser.department,
-                isActive: updatedUser.isActive
+                isActive: updatedUser.isActive,
+                reportsTo: updatedUser.reportsTo
             });
         } else {
             res.status(404).json({ message: 'User not found' });
