@@ -31,9 +31,19 @@ const DashboardLayout = () => {
             });
         });
 
+        socket.on('new_candidate', (data: any) => {
+            if (user?.role === 'admin') {
+                toast.info(`New Application`, {
+                    description: `${data.name} applied for ${data.position}`,
+                    duration: 5000,
+                });
+            }
+        });
+
         return () => {
             socket.off('new_leave_request');
             socket.off('leave_status_updated');
+            socket.off('new_candidate');
         };
     }, [socket, user]);
 

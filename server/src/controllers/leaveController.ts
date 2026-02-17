@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Leave from '../models/Leave';
 import User from '../models/User'; // Import User model
 import { getIO, getUserSocketId } from '../socket';
-import { sendEmail, emailTemplates } from '../utils/emailService'; // Import email service
 
 const TOTAL_LEAVES = {
     casual: 12,
@@ -38,17 +37,13 @@ export const applyLeave = async (req: Request, res: Response) => {
                 reason
             });
 
-            // Find admins to email
-            const admins = await User.find({ role: 'admin', companyId: (req as any).user.companyId });
-            for (const admin of admins) {
-                if (admin.email) {
-                    await sendEmail(
-                        admin.email,
-                        'New Leave Request',
-                        emailTemplates.newLeaveRequest(admin.name, userName, type, reason)
-                    );
-                }
-            }
+            // Find admins to email - REMOVED EMAIL NOTIFICATION
+            // const admins = await User.find({ role: 'admin', companyId: (req as any).user.companyId });
+            // for (const admin of admins) {
+            //    if (admin.email) {
+            //        // await sendEmail(...)
+            //    }
+            // }
 
         } catch (err) {
             console.error('Notification failed:', err);
@@ -113,15 +108,6 @@ export const updateLeaveStatus = async (req: Request, res: Response) => {
                     leaveId: leave._id,
                     status
                 });
-            }
-
-            // Send Email
-            if ((leave.employeeId as any).email) {
-                await sendEmail(
-                    (leave.employeeId as any).email,
-                    `Leave Request Updated: ${status.toUpperCase()}`,
-                    emailTemplates.leaveStatusUpdate((leave.employeeId as any).name, leave.type, status)
-                );
             }
 
         } catch (err) {

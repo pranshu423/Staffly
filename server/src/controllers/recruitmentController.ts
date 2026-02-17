@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Candidate from '../models/Candidate';
+import { getIO } from '../socket';
 
 // @desc    Get all candidates
 // @route   GET /api/recruitment/candidates
@@ -39,6 +40,18 @@ export const addCandidate = async (req: Request, res: Response) => {
             companyId: (req as any).user.companyId,
             status: 'Applied'
         });
+
+        // Notify Admins
+        try {
+            const io = getIO();
+            io.to('admin_room').emit('new_candidate', {
+                candidateId: candidate._id,
+                name: candidate.name,
+                position: candidate.position
+            });
+        } catch (err) {
+            console.error('Socket notification failed:', err);
+        }
 
         res.status(201).json(candidate);
     } catch (error: any) {

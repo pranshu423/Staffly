@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import { sendEmail, emailTemplates } from '../utils/emailService';
+
 
 // @desc    Get all employees
 // @route   GET /api/employees
@@ -63,16 +63,7 @@ export const createEmployee = async (req: Request, res: Response) => {
         });
 
         if (user) {
-            // Send Welcome Email containing credentials
-            try {
-                await sendEmail(
-                    user.email,
-                    'Welcome to Staffly - Your Employee Account',
-                    emailTemplates.welcomeEmployee(user.name, user.email, password, user.role)
-                );
-            } catch (emailError) {
-                console.error('Failed to send welcome email:', emailError);
-            }
+
 
             res.status(201).json({
                 _id: user._id,

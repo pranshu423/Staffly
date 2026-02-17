@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import User from '../models/User';
 import Company from '../models/Company';
 import generateToken from '../utils/generateToken';
-import { sendEmail, emailTemplates } from '../utils/emailService';
 
 // @desc    Register a new user (Company Admin)
 // @route   POST /api/auth/register
@@ -34,17 +33,6 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
         });
 
         if (user) {
-            // Send Welcome Email
-            try {
-                await sendEmail(
-                    user.email,
-                    'Welcome to Staffly!',
-                    emailTemplates.welcome(user.name, user.email, user.role)
-                );
-            } catch (emailError) {
-                console.error('Failed to send welcome email:', emailError);
-            }
-
             const token = generateToken(user._id as unknown as string, user.role);
             res.cookie('jwt', token, {
                 httpOnly: true,
