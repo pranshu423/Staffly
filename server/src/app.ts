@@ -8,9 +8,24 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://staffly-ten.vercel.app',
+    process.env.CLIENT_URL
+].filter(Boolean) as string[];
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Serve static files
@@ -35,6 +50,11 @@ app.use('/api/payroll', payrollRoutes);
 app.use('/api/recruitment', recruitmentRoutes);
 app.use('/api/assets', assetRoutes);
 app.use('/api/documents', documentRoutes);
+
+// Health Check
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Placeholder Route
 app.get('/', (req, res) => {
