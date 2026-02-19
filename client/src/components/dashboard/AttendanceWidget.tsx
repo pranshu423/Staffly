@@ -12,6 +12,7 @@ interface AttendanceWidgetProps {
     fetching?: boolean; // Initial data load state
 }
 
+// AttendanceWidget.tsx updated for GenZ dark theme
 const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkOutTime, onCheckIn, onCheckOut, loading, fetching }) => {
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -37,41 +38,45 @@ const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkO
     const progress = checkInProgress;
 
     return (
-        <div className="glass-card p-6 flex flex-col h-full justify-between">
-            <div className="flex justify-between items-start">
+        <div className="glass-card p-6 flex flex-col h-full justify-between relative bg-slate-900/40 border border-white/5">
+            <div className="absolute inset-0 bg-blue-500/5 rounded-[2rem] pointer-events-none" />
+
+            <div className="flex justify-between items-start relative z-10">
                 <div>
-                    <h3 className="text-xl font-bold text-slate-800">Today's Attendance</h3>
-                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">{today.toUpperCase()}</p>
+                    <h3 className="text-xl font-bold text-white tracking-tight">Today's Attendance</h3>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">{today.toUpperCase()}</p>
                 </div>
                 <Clock className="w-5 h-5 text-slate-400" />
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center py-2 relative min-h-0">
+            <div className="flex-1 flex flex-col items-center justify-center py-2 relative min-h-0 z-10">
                 {/* Circular Progress Container */}
                 <div className="relative w-32 h-32 flex items-center justify-center">
                     {/* Background Circle */}
-                    <svg className="absolute w-full h-full transform -rotate-90">
+                    <svg className="absolute w-full h-full transform -rotate-90 overflow-visible" viewBox="0 0 128 128">
                         <circle
                             cx="64"
                             cy="64"
-                            r="60"
-                            stroke="#E2E8F0"
+                            r="58"
+                            stroke="#334155"
                             strokeWidth="8"
                             fill="transparent"
+                            className="text-slate-700"
                         />
                         {/* Progress Circle */}
                         <motion.circle
-                            initial={{ strokeDashoffset: 2 * Math.PI * 60 }}
-                            animate={{ strokeDashoffset: 2 * Math.PI * 60 - (progress / 100) * 2 * Math.PI * 60 }}
+                            initial={{ strokeDashoffset: 2 * Math.PI * 58 }}
+                            animate={{ strokeDashoffset: 2 * Math.PI * 58 - (progress / 100) * 2 * Math.PI * 58 }}
                             transition={{ duration: 1 }}
                             cx="64"
                             cy="64"
-                            r="60"
+                            r="58"
                             stroke="#3B82F6"
                             strokeWidth="8"
                             fill="transparent"
-                            strokeDasharray={2 * Math.PI * 60}
+                            strokeDasharray={2 * Math.PI * 58}
                             strokeLinecap="round"
+                            className="drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                         />
                     </svg>
 
@@ -79,18 +84,18 @@ const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkO
                     <div className="absolute flex flex-col items-center">
                         {checkInTime ? (
                             <>
-                                <span className="text-xl font-bold text-slate-800">
+                                <span className="text-2xl font-bold text-white">
                                     {new Date(checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </span>
-                                <span className="text-[10px] text-green-600 font-bold bg-green-100 px-2 py-0.5 rounded-full mt-1">On Time</span>
+                                <span className="text-[10px] text-green-300 font-bold bg-green-500/20 border border-green-500/30 px-2 py-0.5 rounded-full mt-1">On Time</span>
                             </>
                         ) : (
-                            <Clock className="w-8 h-8 text-slate-300" />
+                            <Clock className="w-10 h-10 text-slate-600" />
                         )}
                     </div>
                 </div>
 
-                <p className="text-center text-sm text-slate-500 mt-3 font-medium">
+                <p className="text-center text-sm text-slate-400 mt-4 font-medium">
                     {checkInTime
                         ? checkOutTime
                             ? "Checked out"
@@ -103,10 +108,10 @@ const AttendanceWidget: React.FC<AttendanceWidgetProps> = ({ checkInTime, checkO
             <button
                 onClick={checkInTime && !checkOutTime ? onCheckOut : onCheckIn}
                 disabled={loading || (!!checkInTime && !!checkOutTime)}
-                className={`w-full py-3 rounded-xl font-bold text-white shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98] ${checkInTime && !checkOutTime
-                    ? 'bg-red-500 hover:bg-red-600 shadow-red-500/30'
-                    : 'bg-blue-600 hover:bg-blue-700'
-                    } disabled:opacity-50 disabled:cursor-not-allowed text-sm`}
+                className={`w-full py-3.5 rounded-xl font-bold text-white shadow-lg transition-all active:scale-[0.98] relative z-10 ${checkInTime && !checkOutTime
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-red-500/30'
+                    : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 shadow-blue-500/30'
+                    } disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-white/10`}
             >
                 {loading ? 'Processing...' : checkInTime && !checkOutTime ? 'Check Out' : 'Check In Now'}
             </button>

@@ -85,20 +85,20 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onClose, onSucces
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
+            <div className="glass-card w-full max-w-md p-8 relative !bg-slate-900/90 !border-white/10 animate-in fade-in zoom-in-95 duration-300">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white bg-white/5 rounded-full p-2 hover:bg-white/10 transition-colors"
                 >
-                    <X className="h-5 w-5" />
+                    <X className="h-4 w-4" />
                 </button>
 
-                <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
+                <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">
                     {employeeToEdit ? 'Edit Employee' : 'Add New Employee'}
                 </h2>
 
-                {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
+                {error && <div className="mb-4 p-3 bg-red-500/20 text-red-300 border border-red-500/30 rounded-lg text-sm font-medium">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input

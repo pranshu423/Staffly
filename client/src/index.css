@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 @tailwind base;
@@ -6,28 +6,34 @@
 @tailwind utilities;
 
 :root {
-  --sage-50: #f4f7f0;
-  --sage-100: #e3e9d9;
-  --sage-200: #c1cfa0;
-  --sage-300: #a3b680;
-  --sage-400: #859e60;
-  --sage-800: #3f4a30;
-  --sage-900: #2a3320;
+  --midnight-900: #0f172a;
+  --midnight-800: #1e293b;
+  --midnight-700: #334155;
+  --midnight-600: #475569;
+  --midnight-500: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
 }
 
 @layer utilities {
-  .bg-sage-gradient {
-    background: linear-gradient(135deg, #A8B888 0%, #C1CFA0 100%);
-    color: #0f172a;
+  .bg-midnight-animated {
+    background: linear-gradient(-45deg, #020617, #0f172a, #1e1b4b, #312e81);
+    background-size: 400% 400%;
+    animation: gradient-xy 15s ease infinite;
+    color: #f8fafc;
   }
 
   .glass-matte {
-    @apply bg-white/30 backdrop-blur-md border border-white/40 shadow-xl;
+    @apply bg-slate-900/60 backdrop-blur-md border border-white/10 shadow-xl;
   }
 
   .glass-card {
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 100%);
-    @apply backdrop-blur-xl border border-white/50 shadow-sm rounded-[2rem] transition-transform duration-300 hover:scale-[1.02];
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+    @apply backdrop-blur-xl border border-white/10 shadow-lg rounded-[2rem] transition-all duration-300 hover:scale-[1.02] hover:shadow-blue-500/20;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
   }
 }
 
@@ -37,7 +43,40 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 font-sans;
-    font-family: 'Inter', sans-serif;
+    @apply bg-[#020617] text-white antialiased;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0f172a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}
+
+@keyframes gradient-xy {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }

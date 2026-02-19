@@ -90,8 +90,11 @@ const OrgChart = () => {
         const isSelected = selectedEmployee?._id === node._id;
 
         return (
-            <div className={`inline-block p-3 rounded-xl border-2 transition-all cursor-pointer bg-white
-                ${isSelected ? 'border-blue-500 shadow-lg ring-2 ring-blue-200' : 'border-slate-200 hover:border-blue-300 hover:shadow-md'}
+            <div className={`inline-block p-4 rounded-2xl border transition-all cursor-pointer backdrop-blur-md
+                ${isSelected
+                    ? 'bg-blue-600/20 border-blue-500 shadow-[0_0_30px_-5px_rgba(59,130,246,0.5)] ring-1 ring-blue-400'
+                    : 'bg-slate-900/40 border-white/10 hover:border-white/20 hover:bg-slate-800/60 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1'
+                }
             `}
                 onClick={() => {
                     if (isEditMode) {
@@ -100,14 +103,18 @@ const OrgChart = () => {
                     }
                 }}
             >
-                <div className="flex flex-col items-center gap-1 min-w-[120px]">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold mb-1">
+                <div className="flex flex-col items-center gap-2 min-w-[140px]">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-1 shadow-lg
+                        ${isSelected ? 'bg-blue-600 text-white' : 'bg-gradient-to-br from-slate-700 to-slate-800 text-slate-200 border border-white/5'}
+                    `}>
                         {node.name.charAt(0)}
                     </div>
-                    <p className="font-bold text-sm text-slate-800">{node.name}</p>
-                    <p className="text-xs text-slate-500 font-medium capitalize">{node.role}</p>
+                    <p className="font-bold text-base text-white tracking-tight">{node.name}</p>
+                    <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{node.role}</p>
                     {isEditMode && node.reportsTo && (
-                        <span className="text-[10px] text-slate-400">Reports to: {employees.find(e => e._id === node.reportsTo)?.name || 'Unknown'}</span>
+                        <span className="text-[10px] text-slate-500 mt-1 bg-white/5 px-2 py-0.5 rounded-full border border-white/5">
+                            Reports to: {employees.find(e => e._id === node.reportsTo)?.name || 'Unknown'}
+                        </span>
                     )}
                 </div>
             </div>
@@ -126,21 +133,24 @@ const OrgChart = () => {
         <div className="h-full flex flex-col">
             <Toaster richColors position="top-right" />
 
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-800">Organization Chart</h1>
-                    <p className="text-slate-500 font-medium">Visual hierarchy of the company</p>
+                    <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Organization Chart</h1>
+                    <p className="text-slate-300 font-medium text-lg">Visual hierarchy of the company</p>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     {user?.role === 'admin' && (
                         <button
                             onClick={() => {
                                 setIsEditMode(!isEditMode);
                                 setSelectedEmployee(null);
                             }}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all
-                                ${isEditMode ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}
+                            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all shadow-lg border
+                                ${isEditMode
+                                    ? 'bg-blue-600/20 text-blue-300 border-blue-500/50 hover:bg-blue-600/30'
+                                    : 'bg-white/5 text-white border-white/10 hover:bg-white/10 hover:border-white/20'
+                                }
                             `}
                         >
                             <Edit2 className="w-4 h-4" />
@@ -151,62 +161,66 @@ const OrgChart = () => {
             </div>
 
             {/* Controls */}
-            <div className="flex gap-2 mb-4">
-                <button onClick={() => setZoom(z => Math.min(z + 0.1, 2))} className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-50"><ZoomIn className="w-4 h-4" /></button>
-                <button onClick={() => setZoom(z => Math.max(z - 0.1, 0.5))} className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-50"><ZoomOut className="w-4 h-4" /></button>
-                <button onClick={() => setZoom(1)} className="p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-50"><RotateCcw className="w-4 h-4" /></button>
+            <div className="flex gap-2 mb-6">
+                <button onClick={() => setZoom(z => Math.min(z + 0.1, 2))} className="p-3 bg-slate-900/50 text-white rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all shadow-lg"><ZoomIn className="w-5 h-5" /></button>
+                <button onClick={() => setZoom(z => Math.max(z - 0.1, 0.5))} className="p-3 bg-slate-900/50 text-white rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all shadow-lg"><ZoomOut className="w-5 h-5" /></button>
+                <button onClick={() => setZoom(1)} className="p-3 bg-slate-900/50 text-white rounded-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all shadow-lg"><RotateCcw className="w-5 h-5" /></button>
             </div>
 
             {/* Editing Panel */}
             {isEditMode && selectedEmployee && (
-                <div className="mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-100 animate-in slide-in-from-top-2">
+                <div className="mb-6 p-6 bg-slate-900/80 rounded-3xl border border-white/10 animate-in slide-in-from-top-2 shadow-2xl backdrop-blur-md">
                     <div className="flex items-center gap-4">
-                        <span className="font-bold text-blue-800">Assign Manager for: <span className="underline">{selectedEmployee.name}</span></span>
+                        <span className="font-bold text-white text-lg">Assign Manager for: <span className="text-blue-400 underline decoration-blue-500/50 underline-offset-4">{selectedEmployee.name}</span></span>
                         <select
-                            className="px-4 py-2 rounded-xl border-none focus:ring-2 focus:ring-blue-500"
+                            className="px-4 py-3 rounded-xl border border-white/10 bg-black/40 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                             value={newManagerId}
                             onChange={(e) => setNewManagerId(e.target.value)}
                         >
-                            <option value="">No Manager (Top Level)</option>
+                            <option value="" className="bg-slate-900">No Manager (Top Level)</option>
                             {employees
                                 .filter(e => e._id !== selectedEmployee._id) // Prevent self-assignment
                                 .map(e => (
-                                    <option key={e._id} value={e._id}>{e.name} ({e.role})</option>
+                                    <option key={e._id} value={e._id} className="bg-slate-900">{e.name} ({e.role})</option>
                                 ))}
                         </select>
                         <button
                             onClick={handleUpdateManager}
-                            className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="p-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-500 hover:to-indigo-500 transition-all shadow-lg hover:shadow-blue-500/25 border border-white/10"
                         >
-                            <Check className="w-4 h-4" />
+                            <Check className="w-5 h-5" />
                         </button>
                         <button
                             onClick={() => setSelectedEmployee(null)}
-                            className="p-2 bg-slate-200 text-slate-600 rounded-lg hover:bg-slate-300 transition-colors"
+                            className="p-3 bg-white/5 text-slate-400 rounded-xl hover:bg-white/10 hover:text-white transition-colors border border-white/5"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
             )}
 
-            <div className="bg-slate-50 rounded-3xl shadow-inner border border-slate-200 overflow-auto flex-1 p-10 flex justify-center items-start">
-                <div style={{ transform: `scale(${zoom})`, transformOrigin: 'top center', transition: 'transform 0.2s' }}>
-                    {treeData.length > 0 ? (
-                        <Tree
-                            lineWidth={'2px'}
-                            lineColor={'#cbd5e1'}
-                            lineBorderRadius={'10px'}
-                            label={<div className="hidden">Root</div>} // Hidden root
-                        >
-                            {renderTree(treeData)}
-                        </Tree>
-                    ) : (
-                        <div className="text-center text-slate-400 mt-20">
-                            <User className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                            <p>No employees found to visualize.</p>
-                        </div>
-                    )}
+            <div className="glass-card rounded-[2.5rem] shadow-2xl border border-white/10 overflow-hidden flex-1 relative bg-slate-900/40">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-transparent pointer-events-none" />
+
+                <div className="w-full h-full overflow-auto p-10 flex justify-center items-start custom-scrollbar">
+                    <div style={{ transform: `scale(${zoom})`, transformOrigin: 'top center', transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+                        {treeData.length > 0 ? (
+                            <Tree
+                                lineWidth={'2px'}
+                                lineColor={'rgba(255, 255, 255, 0.1)'}
+                                lineBorderRadius={'16px'}
+                                label={<div className="hidden">Root</div>} // Hidden root
+                            >
+                                {renderTree(treeData)}
+                            </Tree>
+                        ) : (
+                            <div className="text-center text-slate-500 mt-20">
+                                <User className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                                <p className="text-lg font-medium">No employees found to visualize.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

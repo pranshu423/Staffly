@@ -45,13 +45,13 @@ const Attendance = () => {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900">Attendance</h1>
-                <p className="text-slate-500">View attendance records</p>
+                <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Attendance</h1>
+                <p className="text-slate-300 text-lg">View attendance records</p>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>{isAdmin ? 'All Employee Attendance' : 'My Attendance History'}</CardTitle>
+                    <CardTitle className="text-white text-xl">{isAdmin ? 'All Employee Attendance' : 'My Attendance History'}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {loading ? (
@@ -59,33 +59,33 @@ const Attendance = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="text-xs text-black uppercase bg-white border-b-2 border-slate-100">
+                                <thead className="text-xs text-slate-400 uppercase bg-slate-900/50 border-b border-white/10">
                                     <tr>
-                                        {isAdmin && <th className="px-6 py-3">Employee</th>}
-                                        <th className="px-6 py-3">Date</th>
-                                        <th className="px-6 py-3">Check In</th>
-                                        <th className="px-6 py-3">Check Out</th>
-                                        <th className="px-6 py-3">Duration (Hrs)</th>
-                                        <th className="px-6 py-3">Status</th>
+                                        {isAdmin && <th className="px-6 py-4 font-bold tracking-wider">Employee</th>}
+                                        <th className="px-6 py-4 font-bold tracking-wider">Date</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Check In</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Check Out</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Duration (Hrs)</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-white/5">
                                     {Array.isArray(attendance) && attendance.map((record) => (
-                                        <tr key={record._id} className="bg-white border-b border-slate-100 hover:bg-slate-50 transition-colors text-slate-900">
+                                        <tr key={record._id} className="bg-transparent hover:bg-white/5 transition-colors text-slate-200">
                                             {isAdmin && (
-                                                <td className="px-6 py-4 font-medium">
+                                                <td className="px-6 py-4 font-bold text-white">
                                                     {record.employeeId && typeof record.employeeId === 'object' ? record.employeeId.name : 'Unknown'}
                                                 </td>
                                             )}
-                                            <td className="px-6 py-4">{new Date(record.date).toLocaleDateString()}</td>
+                                            <td className="px-6 py-4 font-medium">{new Date(record.date).toLocaleDateString()}</td>
                                             <td className="px-6 py-4">{new Date(record.checkInTime).toLocaleTimeString()}</td>
                                             <td className="px-6 py-4">
                                                 {record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-'}
                                             </td>
-                                            <td className="px-6 py-4">{record.workDuration || '-'}</td>
+                                            <td className="px-6 py-4">{record.workDuration ? record.workDuration.toFixed(2) : '-'}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${record.status === 'Present' ? 'bg-green-100 text-green-800' :
-                                                    record.status === 'Absent' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${record.status === 'Present' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                                                    record.status === 'Absent' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
                                                     }`}>
                                                     {record.status}
                                                 </span>
@@ -94,8 +94,10 @@ const Attendance = () => {
                                     ))}
                                     {(!Array.isArray(attendance) || attendance.length === 0) && (
                                         <tr>
-                                            <td colSpan={isAdmin ? 6 : 5} className="px-6 py-4 text-center text-slate-500">
-                                                No attendance records found
+                                            <td colSpan={isAdmin ? 6 : 5} className="px-6 py-12 text-center text-slate-400">
+                                                <div className="flex flex-col items-center justify-center gap-2">
+                                                    <div className="text-lg font-bold text-white">No attendance records found</div>
+                                                </div>
                                             </td>
                                         </tr>
                                     )}

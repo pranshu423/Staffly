@@ -40,7 +40,7 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen bg-sage-gradient dark:bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-500">
+        <div className="min-h-screen bg-midnight-animated flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -48,15 +48,15 @@ const Register = () => {
                 className="sm:mx-auto sm:w-full sm:max-w-md relative z-10"
             >
                 <div className="text-center mb-8">
-                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black tracking-wide mb-2">
+                    <h2 className="text-5xl font-['Pacifico'] font-normal text-white tracking-wide mb-2 drop-shadow-md">
                         Join Staffly
                     </h2>
-                    <p className="mt-2 text-sm text-black font-medium">
+                    <p className="mt-2 text-sm text-slate-200 font-medium">
                         Start your journey with us
                     </p>
                 </div>
 
-                <div className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-black/5 border-slate-400/20">
+                <div className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-white/5 border-white/10">
                     <div className="absolute inset-0 bg-transparent backdrop-blur-xl z-[-1]" />
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <Input
@@ -65,8 +65,8 @@ const Register = () => {
                             required
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            labelClassName="text-black dark:text-black"
-                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                            labelClassName="text-white"
+                            className="h-11 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                         />
 
                         <Input
@@ -75,8 +75,8 @@ const Register = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            labelClassName="text-black dark:text-black"
-                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                            labelClassName="text-white"
+                            className="h-11 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                         />
 
                         <Input
@@ -85,8 +85,8 @@ const Register = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            labelClassName="text-black dark:text-black"
-                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                            labelClassName="text-white"
+                            className="h-11 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                         />
 
                         <Input
@@ -95,8 +95,8 @@ const Register = () => {
                             required
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
-                            labelClassName="text-black dark:text-black"
-                            className="h-11 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                            labelClassName="text-white"
+                            className="h-11 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                         />
 
                         {error && (
@@ -112,7 +112,7 @@ const Register = () => {
                         <div className="pt-2">
                             <Button
                                 type="submit"
-                                className="w-full h-11 text-base font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-lg shadow-purple-500/20 rounded-xl transition-all duration-300"
+                                className="w-full h-11 text-base font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/30 rounded-xl transition-all duration-300 border border-white/10"
                                 isLoading={loading}
                             >
                                 Create Account
@@ -121,9 +121,9 @@ const Register = () => {
                     </form>
 
                     <div className="mt-6 text-center">
-                        <p className="text-sm text-black">
+                        <p className="text-sm text-slate-300">
                             Already have an account?{' '}
-                            <Link to="/login" className="font-bold text-black hover:text-slate-700 transition-colors">
+                            <Link to="/login" className="font-bold text-white hover:text-blue-300 transition-colors">
                                 Sign in
                             </Link>
                         </p>

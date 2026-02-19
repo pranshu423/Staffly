@@ -36,7 +36,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-sage-gradient dark:bg-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-500">
+        <div className="min-h-screen bg-midnight-animated flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
             <motion.div
                 initial="hidden"
                 animate="show"
@@ -59,10 +59,10 @@ const Login = () => {
                     }}
                     className="text-center mb-8"
                 >
-                    <h2 className="text-5xl font-['Pacifico'] font-normal text-black mb-2 tracking-wide">
+                    <h2 className="text-5xl font-['Pacifico'] font-normal text-white mb-2 tracking-wide drop-shadow-md">
                         Staffly
                     </h2>
-                    <p className="mt-2 text-black font-medium">
+                    <p className="mt-2 text-slate-200 font-medium text-lg">
                         Elevate your workforce management
                     </p>
                 </motion.div>
@@ -72,7 +72,7 @@ const Login = () => {
                         hidden: { opacity: 0, scale: 0.95 },
                         show: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 100 } }
                     }}
-                    className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-black/5 border-slate-400/20"
+                    className="glass-card py-8 px-4 shadow-2xl sm:rounded-[2rem] sm:px-10 relative overflow-hidden !bg-white/5 border-white/10"
                 >
                     <div className="absolute inset-0 bg-transparent backdrop-blur-xl z-[-1]" />
                     <form className="space-y-5" onSubmit={handleSubmit}>
@@ -82,8 +82,8 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            labelClassName="text-black dark:text-black"
-                            className="h-12 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                            labelClassName="text-white"
+                            className="h-12 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                         />
 
                         <div>
@@ -93,8 +93,8 @@ const Login = () => {
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                labelClassName="text-black dark:text-black"
-                                className="h-12 bg-white border border-slate-300 focus:border-purple-500 focus:ring-purple-500 text-black placeholder:text-slate-400 rounded-xl shadow-sm"
+                                labelClassName="text-white"
+                                className="h-12 bg-white/10 border border-white/20 focus:border-purple-400 focus:ring-purple-400 text-white placeholder:text-slate-400 rounded-xl shadow-sm hover:bg-white/20 transition-colors"
                             />
                         </div>
 
@@ -110,7 +110,7 @@ const Login = () => {
 
                         <Button
                             type="submit"
-                            className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-lg shadow-purple-500/20 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                            className="w-full h-12 text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-lg shadow-blue-500/30 rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 border border-white/10"
                             isLoading={loading}
                         >
                             Sign in
@@ -120,9 +120,9 @@ const Login = () => {
                     </form>
 
                     <div className="mt-8 text-center">
-                        <p className="text-sm text-black">
+                        <p className="text-sm text-slate-300">
                             Don't have an account?{' '}
-                            <Link to="/register" className="font-bold text-black hover:text-slate-700 hover:underline">
+                            <Link to="/register" className="font-bold text-white hover:text-blue-300 hover:underline transition-colors">
                                 Register company
                             </Link>
                         </p>

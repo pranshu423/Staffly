@@ -62,14 +62,14 @@ const Leaves = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Leave Management</h1>
-                    <p className="text-slate-500 dark:text-slate-400">
+                    <h1 className="text-4xl font-bold tracking-tight text-white mb-2">Leave Management</h1>
+                    <p className="text-slate-300 text-lg">
                         {isAdmin ? 'Manage employee leave requests' : 'View and apply for leaves'}
                     </p>
                 </div>
                 {!isAdmin && (
-                    <Button onClick={() => setIsModalOpen(true)}>
-                        <Plus className="mr-2 h-4 w-4" />
+                    <Button onClick={() => setIsModalOpen(true)} className="shadow-lg shadow-blue-500/20">
+                        <Plus className="mr-2 h-5 w-5" />
                         Apply for Leave
                     </Button>
                 )}
@@ -87,36 +87,36 @@ const Leaves = () => {
                 </CardHeader>
                 <CardContent>
                     {loading ? (
-                        <div>Loading...</div>
+                        <div className="text-white text-center py-8">Loading...</div>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800 dark:text-slate-400">
+                                <thead className="text-xs text-slate-400 uppercase bg-slate-900/50 border-b border-white/10">
                                     <tr>
-                                        {isAdmin && <th className="px-6 py-3">Employee</th>}
-                                        <th className="px-6 py-3">Type</th>
-                                        <th className="px-6 py-3">From</th>
-                                        <th className="px-6 py-3">To</th>
-                                        <th className="px-6 py-3">Reason</th>
-                                        <th className="px-6 py-3">Status</th>
-                                        {isAdmin && <th className="px-6 py-3">Actions</th>}
+                                        {isAdmin && <th className="px-6 py-4 font-bold tracking-wider">Employee</th>}
+                                        <th className="px-6 py-4 font-bold tracking-wider">Type</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">From</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">To</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Reason</th>
+                                        <th className="px-6 py-4 font-bold tracking-wider">Status</th>
+                                        {isAdmin && <th className="px-6 py-4 font-bold tracking-wider">Actions</th>}
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-white/5">
                                     {Array.isArray(leaves) && leaves.map((leave) => (
-                                        <tr key={leave._id} className="bg-white border-b border-slate-200 hover:bg-slate-50 text-slate-900">
+                                        <tr key={leave._id} className="bg-transparent hover:bg-white/5 transition-colors text-slate-200">
                                             {isAdmin && (
-                                                <td className="px-6 py-4 font-medium">
+                                                <td className="px-6 py-4 font-bold text-white">
                                                     {leave.employeeId && typeof leave.employeeId === 'object' ? leave.employeeId.name : 'Unknown'}
                                                 </td>
                                             )}
-                                            <td className="px-6 py-4 capitalize">{leave.type}</td>
+                                            <td className="px-6 py-4 capitalize font-medium">{leave.type}</td>
                                             <td className="px-6 py-4">{new Date(leave.fromDate).toLocaleDateString()}</td>
                                             <td className="px-6 py-4">{new Date(leave.toDate).toLocaleDateString()}</td>
                                             <td className="px-6 py-4 truncate max-w-xs">{leave.reason}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${leave.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                    leave.status === 'rejected' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                                                <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${leave.status === 'approved' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                                                    leave.status === 'rejected' ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
                                                     }`}>
                                                     {leave.status}
                                                 </span>
@@ -125,10 +125,10 @@ const Leaves = () => {
                                                 <td className="px-6 py-4 flex gap-2">
                                                     {leave.status === 'pending' && (
                                                         <>
-                                                            <Button size="sm" variant="ghost" className="text-green-600 hover:bg-green-50" onClick={() => handleUpdateStatus(leave._id, 'approved')}>
+                                                            <Button size="sm" variant="ghost" className="text-green-400 hover:text-green-300 hover:bg-green-500/10" onClick={() => handleUpdateStatus(leave._id, 'approved')}>
                                                                 <Check className="h-4 w-4" />
                                                             </Button>
-                                                            <Button size="sm" variant="ghost" className="text-red-600 hover:bg-red-50" onClick={() => handleUpdateStatus(leave._id, 'rejected')}>
+                                                            <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300 hover:bg-red-500/10" onClick={() => handleUpdateStatus(leave._id, 'rejected')}>
                                                                 <X className="h-4 w-4" />
                                                             </Button>
                                                         </>
@@ -139,8 +139,10 @@ const Leaves = () => {
                                     ))}
                                     {(!Array.isArray(leaves) || leaves.length === 0) && (
                                         <tr>
-                                            <td colSpan={isAdmin ? 7 : 5} className="px-6 py-4 text-center text-slate-500">
-                                                No specific records found
+                                            <td colSpan={isAdmin ? 7 : 5} className="px-6 py-12 text-center text-slate-400">
+                                                <div className="flex flex-col items-center justify-center gap-2">
+                                                    <div className="text-lg font-bold text-white">No requests found</div>
+                                                </div>
                                             </td>
                                         </tr>
                                     )}

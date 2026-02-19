@@ -51,41 +51,41 @@ const ApplyLeaveModal: React.FC<ApplyLeaveModalProps> = ({ isOpen, onClose, onSu
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-md p-6 relative animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
+            <div className="glass-card w-full max-w-md p-8 relative !bg-slate-900/90 !border-white/10 animate-in fade-in zoom-in-95 duration-300">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white bg-white/5 p-2 rounded-full hover:bg-white/10 transition-colors"
                 >
                     <X className="h-5 w-5" />
                 </button>
 
-                <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">
+                <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">
                     Apply for Leave
                 </h2>
 
-                {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
+                {error && <div className="mb-6 p-4 bg-red-500/10 text-red-300 border border-red-500/20 rounded-xl text-sm font-medium">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-300 ml-1">
                             Leave Type
                         </label>
                         <select
                             name="type"
                             value={formData.type}
                             onChange={handleChange}
-                            className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white appearance-none hover:bg-white/10 transition-colors"
                         >
-                            <option value="casual">Casual Leave</option>
-                            <option value="sick">Sick Leave</option>
-                            <option value="paid">Paid Leave</option>
+                            <option value="casual" className="bg-slate-900">Casual Leave</option>
+                            <option value="sick" className="bg-slate-900">Sick Leave</option>
+                            <option value="paid" className="bg-slate-900">Paid Leave</option>
                         </select>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1">
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-slate-300 ml-1">
                                 From Date
                             </label>
                             <input
@@ -94,11 +94,11 @@ const ApplyLeaveModal: React.FC<ApplyLeaveModalProps> = ({ isOpen, onClose, onSu
                                 value={formData.fromDate}
                                 onChange={handleChange}
                                 required
-                                className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                                className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white hover:bg-white/10 transition-colors"
                             />
                         </div>
-                        <div className="space-y-1">
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                        <div className="space-y-2">
+                            <label className="block text-sm font-bold text-slate-300 ml-1">
                                 To Date
                             </label>
                             <input
@@ -107,13 +107,13 @@ const ApplyLeaveModal: React.FC<ApplyLeaveModalProps> = ({ isOpen, onClose, onSu
                                 value={formData.toDate}
                                 onChange={handleChange}
                                 required
-                                className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                                className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white hover:bg-white/10 transition-colors"
                             />
                         </div>
                     </div>
 
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-300 ml-1">
                             Reason
                         </label>
                         <textarea
@@ -122,7 +122,7 @@ const ApplyLeaveModal: React.FC<ApplyLeaveModalProps> = ({ isOpen, onClose, onSu
                             onChange={handleChange}
                             required
                             rows={3}
-                            className="flex w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="flex w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white resize-none hover:bg-white/10 transition-colors"
                             placeholder="Brief reason for your leave..."
                         />
                     </div>

@@ -64,34 +64,34 @@ const GeneratePayrollModal: React.FC<GeneratePayrollModalProps> = ({ isOpen, onC
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white dark:bg-slate-900 rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md">
+            <div className="glass-card w-full max-w-md p-8 relative !bg-slate-900/90 !border-white/10">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="absolute top-4 right-4 text-slate-400 hover:text-white bg-white/5 p-2 rounded-full hover:bg-white/10 transition-colors"
                 >
                     <X className="h-5 w-5" />
                 </button>
 
-                <h2 className="text-xl font-bold mb-4 text-slate-900 dark:text-slate-100">Generate Payroll</h2>
+                <h2 className="text-2xl font-bold mb-6 text-white tracking-tight">Generate Payroll</h2>
 
-                {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
+                {error && <div className="mb-6 p-4 bg-red-500/10 text-red-300 border border-red-500/20 rounded-xl text-sm font-medium">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-1">
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-2">
+                        <label className="block text-sm font-bold text-slate-300 ml-1">
                             Employee
                         </label>
                         <select
                             name="employeeId"
                             value={formData.employeeId}
                             onChange={handleChange}
-                            className="flex h-10 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
+                            className="flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white appearance-none hover:bg-white/10 transition-colors"
                             required
                         >
-                            <option value="" disabled>Select Employee</option>
+                            <option value="" disabled className="bg-slate-900">Select Employee</option>
                             {employees.map(emp => (
-                                <option key={emp._id} value={emp._id}>{emp.name}</option>
+                                <option key={emp._id} value={emp._id} className="bg-slate-900">{emp.name}</option>
                             ))}
                         </select>
                     </div>

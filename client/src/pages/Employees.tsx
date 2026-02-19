@@ -69,8 +69,8 @@ const Employees = () => {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Employees</h1>
-                    <p className="text-slate-500 dark:text-slate-400">Manage your organization's staff</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-white">Employees</h1>
+                    <p className="text-slate-400">Manage your organization's staff</p>
                 </div>
                 <Button onClick={handleAdd}>
                     <Plus className="mr-2 h-4 w-4" />
@@ -95,7 +95,7 @@ const Employees = () => {
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left">
-                                <thead className="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-slate-800 dark:text-slate-400">
+                                <thead className="text-xs text-slate-400 uppercase bg-slate-900/50 border-b border-white/10">
                                     <tr>
                                         <th className="px-6 py-3">Employee ID</th>
                                         <th className="px-6 py-3">Name</th>
@@ -108,22 +108,22 @@ const Employees = () => {
                                 </thead>
                                 <tbody>
                                     {employees.map((emp) => (
-                                        <tr key={emp._id} className="bg-white border-b border-slate-200 hover:bg-slate-50 text-slate-900">
+                                        <tr key={emp._id} className="bg-transparent border-b border-white/5 hover:bg-white/5 text-slate-300 transition-colors">
                                             <td className="px-6 py-4 font-medium">{emp.employeeId}</td>
                                             <td className="px-6 py-4">{emp.name}</td>
                                             <td className="px-6 py-4">{emp.email}</td>
                                             <td className="px-6 py-4">{emp.department || '-'}</td>
                                             <td className="px-6 py-4 capitalize">{emp.role}</td>
                                             <td className="px-6 py-4">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${emp.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                                                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${emp.isActive ? 'bg-green-500/20 text-green-300 ring-1 ring-green-500/30' : 'bg-red-500/20 text-red-300 ring-1 ring-red-500/30'}`}>
                                                     {emp.isActive ? 'Active' : 'Inactive'}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 flex gap-2">
                                                 <Button size="sm" variant="ghost" onClick={() => handleEdit(emp)}>
-                                                    <Pencil className="h-4 w-4 text-slate-500" />
+                                                    <Pencil className="h-4 w-4 text-blue-400" />
                                                 </Button>
-                                                <Button size="sm" variant="ghost" className="text-red-500 hover:text-red-600 hover:bg-red-50" onClick={() => handleDelete(emp._id)}>
+                                                <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300 hover:bg-red-500/10" onClick={() => handleDelete(emp._id)}>
                                                     <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             </td>

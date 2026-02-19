@@ -138,14 +138,14 @@ const RecruitmentBoard = () => {
         <div className="h-full flex flex-col">
             <Toaster richColors position="top-right" />
 
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-800">Recruitment</h1>
-                    <p className="text-slate-500 font-medium">Manage your hiring pipeline</p>
+                    <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Recruitment</h1>
+                    <p className="text-slate-300 font-medium text-lg">Manage your hiring pipeline</p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95"
+                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 border border-white/10 transition-all hover:-translate-y-0.5"
                 >
                     <Plus className="w-5 h-5" />
                     Add Candidate
@@ -188,18 +188,18 @@ const RecruitmentBoard = () => {
 
             {/* Add Candidate Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-200">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Add New Candidate</h2>
-                        <form onSubmit={handleAddCandidate} className="space-y-4">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                    <div className="glass-card !bg-slate-900/90 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-300 border border-white/10">
+                        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Add New Candidate</h2>
+                        <form onSubmit={handleAddCandidate} className="space-y-5">
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Full Name</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Full Name</label>
                                 <div className="relative">
                                     <input
                                         type="text"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
-                                        placeholder="John Doe"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
+                                        placeholder="Enter full name"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     />
@@ -209,13 +209,13 @@ const RecruitmentBoard = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Email</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Email</label>
                                 <div className="relative">
                                     <input
                                         type="email"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
-                                        placeholder="john@example.com"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
+                                        placeholder="Enter email address"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     />
@@ -225,13 +225,13 @@ const RecruitmentBoard = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Phone</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Phone</label>
                                 <div className="relative">
                                     <input
                                         type="tel"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
-                                        placeholder="+1 234 567 890"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
+                                        placeholder="Enter phone number"
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                     />
@@ -241,13 +241,13 @@ const RecruitmentBoard = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Position</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Position</label>
                                 <div className="relative">
                                     <input
                                         type="text"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
-                                        placeholder="Software Engineer"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
+                                        placeholder="Enter position applied for"
                                         value={formData.position}
                                         onChange={(e) => setFormData({ ...formData, position: e.target.value })}
                                     />
@@ -257,17 +257,17 @@ const RecruitmentBoard = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-3 pt-4">
+                            <div className="flex gap-3 pt-6">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors"
+                                    className="flex-1 py-3.5 bg-white/5 hover:bg-white/10 text-slate-300 rounded-xl font-bold transition-colors border border-white/10"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors shadow-lg shadow-slate-900/20"
+                                    className="flex-1 py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                                 >
                                     Add Candidate
                                 </button>

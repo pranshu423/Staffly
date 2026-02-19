@@ -24,9 +24,9 @@ const Sidebar = () => {
     ];
 
     return (
-        <div className="h-screen w-64 glass-matte border-r border-white/50 flex flex-col fixed left-0 top-0 z-50">
+        <div className="h-screen w-64 glass-matte border-r border-white/10 flex flex-col fixed left-0 top-0 z-50">
             <div className="p-8 flex items-center gap-2">
-                <span className="text-3xl font-['Pacifico'] text-slate-800 tracking-wide">Staffly</span>
+                <span className="text-3xl font-['Pacifico'] text-white tracking-wide">Staffly</span>
             </div>
 
             <nav className="flex-1 px-4 space-y-2 overflow-y-auto mt-4">
@@ -39,21 +39,21 @@ const Sidebar = () => {
                             className={clsx(
                                 'flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-200',
                                 isActive
-                                    ? 'bg-white/60 text-slate-900 shadow-lg shadow-black/5'
-                                    : 'text-slate-600 hover:text-slate-900 hover:bg-white/30'
+                                    ? 'bg-white/10 text-white shadow-lg shadow-white/5 border border-white/10'
+                                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                             )}
                         >
-                            <item.icon className={clsx("h-5 w-5", isActive ? "text-slate-900" : "text-slate-500")} />
+                            <item.icon className={clsx("h-5 w-5", isActive ? "text-blue-400" : "text-slate-500 group-hover:text-slate-300")} />
                             {item.name}
                         </Link>
                     );
                 })}
             </nav>
 
-            <div className="p-6 border-t border-slate-200/50 space-y-2">
+            <div className="p-6 border-t border-white/10 space-y-2">
                 <button
                     onClick={logout}
-                    className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-red-600 hover:text-red-700 hover:bg-red-50 w-full transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-red-400 hover:text-red-300 hover:bg-red-500/10 w-full transition-colors"
                 >
                     <LogOut className="h-5 w-5" />
                     <span>Logout</span>

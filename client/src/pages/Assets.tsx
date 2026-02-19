@@ -145,65 +145,65 @@ const Assets = () => {
         <div className="h-full flex flex-col">
             <Toaster richColors position="top-right" />
 
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-800">Asset Management</h1>
-                    <p className="text-slate-500 font-medium">Track and assign company assets</p>
+                    <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Asset Management</h1>
+                    <p className="text-slate-300 font-medium text-lg">Track and assign company assets</p>
                 </div>
                 <button
                     onClick={() => setIsAddModalOpen(true)}
-                    className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95"
+                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 border border-white/10 transition-all hover:-translate-y-0.5"
                 >
                     <Plus className="w-5 h-5" />
                     Add Asset
                 </button>
             </div>
 
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex-1">
+            <div className="glass-card rounded-[2.5rem] shadow-2xl border border-white/10 overflow-hidden flex-1 relative bg-slate-900/40">
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-slate-50 border-b border-slate-100">
+                        <thead className="bg-slate-900/50 border-b border-white/10">
                             <tr>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Asset Name</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Serial Number</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Type</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Assigned To</th>
-                                <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Purchase Date</th>
-                                <th className="px-6 py-4 text-right text-xs font-bold text-slate-500 uppercase tracking-wider">Actions</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Asset Name</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Serial Number</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Type</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Status</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Assigned To</th>
+                                <th className="px-6 py-5 text-left text-xs font-bold text-slate-300 uppercase tracking-wider">Purchase Date</th>
+                                <th className="px-6 py-5 text-right text-xs font-bold text-slate-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-slate-100">
+                        <tbody className="divide-y divide-white/5">
                             {assets.map((asset) => (
-                                <tr key={asset._id} className="hover:bg-slate-50/50 transition-colors">
+                                <tr key={asset._id} className="hover:bg-white/5 transition-colors group">
                                     <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+                                        <div className="flex items-center gap-4">
+                                            <div className="p-3 bg-white/5 rounded-xl text-slate-300 group-hover:text-white group-hover:bg-blue-500/20 transition-colors border border-white/5">
                                                 {asset.type === 'Electronics' ? <Monitor className="w-5 h-5" /> : <Armchair className="w-5 h-5" />}
                                             </div>
-                                            <span className="font-bold text-slate-700">{asset.name}</span>
+                                            <span className="font-bold text-white text-base">{asset.name}</span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-sm font-medium text-slate-600">{asset.serialNumber}</td>
-                                    <td className="px-6 py-4 text-sm font-medium text-slate-600">{asset.type}</td>
+                                    <td className="px-6 py-4 text-sm font-medium text-slate-300">{asset.serialNumber}</td>
+                                    <td className="px-6 py-4 text-sm font-medium text-slate-300">{asset.type}</td>
                                     <td className="px-6 py-4">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold border ${getStatusColor(asset.status)}`}>
+                                        <span className={`px-3 py-1 rounded-lg text-xs font-bold border uppercase tracking-wider ${getStatusColor(asset.status).replace('bg-green-100', 'bg-green-500/20').replace('text-green-700', 'text-green-300').replace('border-green-200', 'border-green-500/30').replace('bg-blue-100', 'bg-blue-500/20').replace('text-blue-700', 'text-blue-300').replace('border-blue-200', 'border-blue-500/30').replace('bg-red-100', 'bg-red-500/20').replace('text-red-700', 'text-red-300').replace('border-red-200', 'border-red-500/30').replace('bg-slate-100', 'bg-slate-500/20').replace('text-slate-700', 'text-slate-300').replace('border-slate-200', 'border-slate-500/30')}`}>
                                             {asset.status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
                                         {asset.assignedTo ? (
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-600">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-xs font-bold text-blue-300 border border-blue-500/30">
                                                     {asset.assignedTo.name.charAt(0)}
                                                 </div>
-                                                <span className="text-sm font-medium text-slate-700">{asset.assignedTo.name}</span>
+                                                <span className="text-sm font-bold text-white">{asset.assignedTo.name}</span>
                                             </div>
                                         ) : (
-                                            <span className="text-sm text-slate-400 italic">Unassigned</span>
+                                            <span className="text-sm text-slate-500 italic font-medium">Unassigned</span>
                                         )}
                                     </td>
-                                    <td className="px-6 py-4 text-sm font-medium text-slate-600">
+                                    <td className="px-6 py-4 text-sm font-medium text-slate-300">
                                         {new Date(asset.purchaseDate).toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4 text-right">
@@ -214,19 +214,19 @@ const Assets = () => {
                                                     setAssignData({ employeeId: '' });
                                                     setIsAssignModalOpen(true);
                                                 }}
-                                                className="text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition-colors"
+                                                className="text-xs font-bold text-blue-300 hover:text-white bg-blue-500/20 px-4 py-2 rounded-xl hover:bg-blue-500/40 transition-all border border-blue-500/30"
                                             >
                                                 Assign
                                             </button>
                                         ) : asset.assignedTo ? (
                                             <button
                                                 onClick={() => handleUnassign(asset)}
-                                                className="text-xs font-bold text-red-600 hover:text-red-700 bg-red-50 px-3 py-1.5 rounded-lg hover:bg-red-100 transition-colors"
+                                                className="text-xs font-bold text-red-300 hover:text-white bg-red-500/20 px-4 py-2 rounded-xl hover:bg-red-500/40 transition-all border border-red-500/30"
                                             >
                                                 Unassign
                                             </button>
                                         ) : (
-                                            <span className="text-xs text-slate-400">Unavailable</span>
+                                            <span className="text-xs text-slate-500 font-medium">Unavailable</span>
                                         )}
                                     </td>
                                 </tr>
@@ -234,9 +234,11 @@ const Assets = () => {
                             {assets.length === 0 && !isLoading && (
                                 <tr>
                                     <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
-                                        <div className="flex flex-col items-center gap-2">
-                                            <Box className="w-8 h-8 text-slate-300" />
-                                            <p className="font-medium">No assets found</p>
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="p-4 bg-white/5 rounded-full border border-white/5">
+                                                <Box className="w-10 h-10 text-slate-500" />
+                                            </div>
+                                            <p className="font-medium text-lg text-slate-400">No assets found</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -248,17 +250,17 @@ const Assets = () => {
 
             {/* Add Asset Modal */}
             {isAddModalOpen && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-200">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-6">Add New Asset</h2>
-                        <form onSubmit={handleAddAsset} className="space-y-4">
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                    <div className="glass-card !bg-slate-900/90 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-300 border border-white/10">
+                        <h2 className="text-2xl font-bold text-white mb-6 tracking-tight">Add New Asset</h2>
+                        <form onSubmit={handleAddAsset} className="space-y-5">
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Asset Name</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Asset Name</label>
                                 <div className="relative">
                                     <input
                                         type="text"
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
                                         placeholder="MacBook Pro"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -269,51 +271,51 @@ const Assets = () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Type</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Type</label>
                                 <select
-                                    className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium appearance-none"
+                                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white appearance-none outline-none hover:bg-white/10 transition-colors"
                                     value={formData.type}
                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                 >
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Furniture">Furniture</option>
-                                    <option value="Vehicle">Vehicle</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Electronics" className="bg-slate-900">Electronics</option>
+                                    <option value="Furniture" className="bg-slate-900">Furniture</option>
+                                    <option value="Vehicle" className="bg-slate-900">Vehicle</option>
+                                    <option value="Other" className="bg-slate-900">Other</option>
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Serial Number</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Serial Number</label>
                                 <input
                                     type="text"
                                     required
-                                    className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
+                                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white placeholder:text-slate-500 outline-none hover:bg-white/10 transition-colors"
                                     placeholder="SN-12345678"
                                     value={formData.serialNumber}
                                     onChange={(e) => setFormData({ ...formData, serialNumber: e.target.value })}
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Purchase Date</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Purchase Date</label>
                                 <input
                                     type="date"
                                     required
-                                    className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium"
+                                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white outline-none hover:bg-white/10 transition-colors dark-date-picker"
                                     value={formData.purchaseDate}
                                     onChange={(e) => setFormData({ ...formData, purchaseDate: e.target.value })}
                                 />
                             </div>
 
-                            <div className="flex gap-3 pt-4">
+                            <div className="flex gap-3 pt-6">
                                 <button
                                     type="button"
                                     onClick={() => setIsAddModalOpen(false)}
-                                    className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors"
+                                    className="flex-1 py-3.5 bg-white/5 hover:bg-white/10 text-slate-300 rounded-xl font-bold transition-colors border border-white/10"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors shadow-lg shadow-slate-900/20"
+                                    className="flex-1 py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                                 >
                                     Add Asset
                                 </button>
@@ -325,24 +327,24 @@ const Assets = () => {
 
             {/* Assign Asset Modal */}
             {isAssignModalOpen && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-200">
-                        <h2 className="text-2xl font-bold text-slate-900 mb-2">Assign Asset</h2>
-                        <p className="text-slate-500 mb-6">Assign <strong>{selectedAsset?.name}</strong> to an employee.</p>
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                    <div className="glass-card !bg-slate-900/90 rounded-3xl p-8 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-300 border border-white/10">
+                        <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">Assign Asset</h2>
+                        <p className="text-slate-400 mb-6 font-medium">Assign <strong className="text-white">{selectedAsset?.name}</strong> to an employee.</p>
 
-                        <form onSubmit={handleAssignAsset} className="space-y-4">
+                        <form onSubmit={handleAssignAsset} className="space-y-5">
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Select Employee</label>
+                                <label className="block text-sm font-bold text-slate-300 mb-2 ml-1">Select Employee</label>
                                 <div className="relative">
                                     <select
                                         required
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-blue-500 font-medium appearance-none"
+                                        className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 font-medium text-white appearance-none outline-none hover:bg-white/10 transition-colors"
                                         value={assignData.employeeId}
                                         onChange={(e) => setAssignData({ employeeId: e.target.value })}
                                     >
-                                        <option value="">Select an employee</option>
+                                        <option value="" className="bg-slate-900">Select an employee</option>
                                         {employees.map(emp => (
-                                            <option key={emp._id} value={emp._id}>{emp.name} ({emp.email})</option>
+                                            <option key={emp._id} value={emp._id} className="bg-slate-900">{emp.name} ({emp.email})</option>
                                         ))}
                                     </select>
                                     <div className="absolute left-3 top-3.5 text-slate-400">
@@ -354,17 +356,17 @@ const Assets = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-3 pt-4">
+                            <div className="flex gap-3 pt-6">
                                 <button
                                     type="button"
                                     onClick={() => setIsAssignModalOpen(false)}
-                                    className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-colors"
+                                    className="flex-1 py-3.5 bg-white/5 hover:bg-white/10 text-slate-300 rounded-xl font-bold transition-colors border border-white/10"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors shadow-lg shadow-slate-900/20"
+                                    className="flex-1 py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                                 >
                                     Assign
                                 </button>

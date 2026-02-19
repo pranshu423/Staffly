@@ -166,15 +166,15 @@ const Dashboard = () => {
                     return (
                         <StatsWidget title="Pending Requests" icon={AlertCircle} fetching={fetching}>
                             <div className="flex items-center gap-6">
-                                <div className="bg-orange-100 p-4 rounded-2xl">
-                                    <FileText className="w-12 h-12 text-orange-500" />
+                                <div className="bg-orange-500/20 p-4 rounded-2xl ring-1 ring-orange-500/50">
+                                    <FileText className="w-12 h-12 text-orange-400" />
                                 </div>
                                 <div>
-                                    <div className="text-6xl font-bold text-slate-800">{pendingLeaves}</div>
-                                    <div className="text-slate-500 font-medium leading-tight mt-1">pending<br />approvals</div>
+                                    <div className="text-6xl font-bold text-white">{pendingLeaves}</div>
+                                    <div className="text-slate-400 font-medium leading-tight mt-1">pending<br />approvals</div>
                                 </div>
                             </div>
-                            <div className="mt-8 text-sm text-slate-500 font-medium">
+                            <div className="mt-8 text-sm text-slate-400 font-medium">
                                 Employees waiting for your response.
                             </div>
                         </StatsWidget>
@@ -183,8 +183,8 @@ const Dashboard = () => {
                     return (
                         <StatsWidget title="My Status" icon={CheckCircle2} fetching={fetching}>
                             <div className="flex flex-col items-center text-center">
-                                <div className="text-4xl font-bold text-slate-800 mb-2">Active</div>
-                                <p className="text-slate-500">You are currently marked active.</p>
+                                <div className="text-4xl font-bold text-white mb-2">Active</div>
+                                <p className="text-slate-400">You are currently marked active.</p>
                             </div>
                         </StatsWidget>
                     );
@@ -192,31 +192,31 @@ const Dashboard = () => {
             case 'team':
                 return (
                     <StatsWidget title="Team Status" icon={CheckCircle2} fetching={fetching}>
-                        <div className="flex justify-between items-center mb-4 p-3 bg-green-50 rounded-lg border border-green-100">
-                            <span className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <div className="flex justify-between items-center mb-4 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                            <span className="text-sm font-semibold text-slate-200 flex items-center gap-2">
                                 <span className="relative flex h-3 w-3">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                 </span>
                                 Online Now
                             </span>
-                            <span className="text-lg font-bold text-green-700">{onlineUsers.length}</span>
+                            <span className="text-lg font-bold text-green-400">{onlineUsers.length}</span>
                         </div>
 
                         <div className="flex justify-between items-center mb-2">
-                            <span className="text-sm font-semibold text-slate-600">In Office</span>
-                            <span className="text-sm font-bold text-slate-900">{teamStatus.inOffice} / {teamStatus.totalEmployees}</span>
+                            <span className="text-sm font-semibold text-slate-400">In Office</span>
+                            <span className="text-sm font-bold text-white">{teamStatus.inOffice} / {teamStatus.totalEmployees}</span>
                         </div>
-                        <div className="w-full bg-slate-200 rounded-full h-2 mb-6">
+                        <div className="w-full bg-slate-700/50 rounded-full h-2 mb-6">
                             <div
-                                className="bg-blue-500 h-2 rounded-full transition-all duration-1000"
+                                className="bg-blue-500 h-2 rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                                 style={{ width: `${teamStatus.totalEmployees > 0 ? Math.min((teamStatus.inOffice / teamStatus.totalEmployees) * 100, 100) : 0}%` }}
                             ></div>
                         </div>
 
                         <div className="flex justify-between items-center mb-6">
-                            <span className="text-sm font-semibold text-slate-600">On Leave</span>
-                            <span className="text-sm font-bold text-slate-900">{teamStatus.onLeave}</span>
+                            <span className="text-sm font-semibold text-slate-400">On Leave</span>
+                            <span className="text-sm font-bold text-white">{teamStatus.onLeave}</span>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -239,7 +239,7 @@ const Dashboard = () => {
 
                         <button
                             onClick={() => navigate('/employees')}
-                            className="text-blue-600 font-semibold text-sm mt-auto flex items-center gap-1 hover:gap-2 transition-all"
+                            className="text-blue-400 font-semibold text-sm mt-auto flex items-center gap-1 hover:gap-2 transition-all hover:text-blue-300"
                         >
                             View all employees →
                         </button>
@@ -258,11 +258,11 @@ const Dashboard = () => {
             animate="show"
         >
             <motion.div variants={itemVariant}>
-                <h1 className="text-4xl font-bold tracking-tight text-slate-900 leading-tight">Dashboard</h1>
-                <p className="text-slate-600 font-medium text-lg mt-2">
+                <h1 className="text-4xl font-bold tracking-tight text-white leading-tight drop-shadow-sm">Dashboard</h1>
+                <p className="text-slate-300 font-medium text-lg mt-2">
                     Welcome back, {user?.name}. Here's what's happening today.
                 </p>
-                <div className="mt-2 text-xs text-slate-900 font-bold">
+                <div className="mt-2 text-xs text-slate-400 font-bold">
                     💡 Tip: You can drag and drop widgets to reorder them!
                 </div>
             </motion.div>

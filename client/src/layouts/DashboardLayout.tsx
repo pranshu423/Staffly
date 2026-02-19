@@ -48,7 +48,7 @@ const DashboardLayout = () => {
     }, [socket, user]);
 
     return (
-        <div className="min-h-screen bg-sage-gradient flex font-sans transition-colors duration-500 text-slate-900">
+        <div className="min-h-screen bg-midnight-animated flex font-sans text-slate-100">
             <Toaster richColors position="top-right" />
             <Sidebar />
             <div className="flex-1 ml-64 flex flex-col h-screen overflow-hidden">

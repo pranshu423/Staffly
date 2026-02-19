@@ -35,19 +35,19 @@ export const SortableCandidateCard = ({ candidate, isOverlay = false }: Props) =
 
     if (isOverlay) {
         return (
-            <div className="glass-card p-4 shadow-xl border-blue-500/30 cursor-grabbing bg-white rotate-2 transform scale-105">
+            <div className="glass-card p-4 shadow-xl border-blue-500/50 cursor-grabbing !bg-slate-800 rotate-2 transform scale-105">
                 <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-bold text-slate-800">{candidate.name}</h4>
-                    <span className="text-xs font-bold px-2 py-1 bg-slate-100 rounded-lg text-slate-600">
+                    <h4 className="font-bold text-white">{candidate.name}</h4>
+                    <span className="text-xs font-bold px-2 py-1 bg-white/10 rounded-lg text-slate-300 border border-white/5">
                         {candidate.position}
                     </span>
                 </div>
                 <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
                         <Mail className="w-3 h-3" />
                         {candidate.email}
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-center gap-2 text-xs text-slate-400">
                         <Phone className="w-3 h-3" />
                         {candidate.phone}
                     </div>
@@ -62,26 +62,26 @@ export const SortableCandidateCard = ({ candidate, isOverlay = false }: Props) =
             style={style}
             {...attributes}
             {...listeners}
-            className="glass-card p-4 hover:border-blue-400/50 group cursor-grab active:cursor-grabbing bg-white"
+            className="glass-card p-4 hover:border-blue-500/30 group cursor-grab active:cursor-grabbing !bg-slate-900/60 hover:!bg-slate-900/80 transition-all hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-1"
         >
             <div className="flex justify-between items-start mb-2">
-                <h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">{candidate.name}</h4>
+                <h4 className="font-bold text-slate-200 group-hover:text-blue-400 transition-colors tracking-tight">{candidate.name}</h4>
             </div>
             <div className="mb-3">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-slate-100 rounded-md text-slate-500">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-white/5 rounded-md text-slate-400 border border-white/5 group-hover:border-white/10 transition-colors">
                     {candidate.position}
                 </span>
             </div>
-            <div className="space-y-1.5 pt-2 border-t border-slate-100">
-                <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                    <Mail className="w-3.5 h-3.5 text-slate-400" />
+            <div className="space-y-1.5 pt-3 border-t border-white/5">
+                <div className="flex items-center gap-2 text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                    <Mail className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-400/70 transition-colors" />
                     {candidate.email}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                    <Phone className="w-3.5 h-3.5 text-slate-400" />
+                <div className="flex items-center gap-2 text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">
+                    <Phone className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-400/70 transition-colors" />
                     {candidate.phone}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-slate-400 mt-2">
+                <div className="flex items-center gap-2 text-xs text-slate-500 mt-2 group-hover:text-slate-400 transition-colors">
                     <Calendar className="w-3.5 h-3.5" />
                     {new Date(candidate.createdAt).toLocaleDateString()}
                 </div>
